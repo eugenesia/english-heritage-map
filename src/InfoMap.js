@@ -1,7 +1,10 @@
 /**
  * Map with markers and info windows, passed in using props.
  */
+
+// This comment creates a global variable 'google'.
 /* global google */
+
 import { default as React, Component } from "react";
 
 import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
