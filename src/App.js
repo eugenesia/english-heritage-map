@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import GettingStartedExample from './GettingStartedExample';
-import _ from 'lodash';
+import InfoMap from './InfoMap';
 
-const markers = [{
-	position: {
-		lat: 25.0112183,
-		lng: 121.52067570000001,
-	},
-	key: `Taiwan`,
-	defaultAnimation: 2,
-}];
+// Show points on map.
+var markers = [
+  { // Lewisham station.
+    position: {lat: 51.4656554, lng: -0.0161922},
+  },
+  { // Luton.
+    position: {lat: 51.8911008, lng: -0.4630409},
+  },
+];
 
 class App extends Component {
   render() {
@@ -24,20 +24,8 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-				<div style={{height: '400px', width: '400px'}}>
-					<GettingStartedExample
-						containerElement={
-							<div style={{ height: `100%` }} />
-						}
-						mapElement={
-							<div style={{ height: `100%` }} />
-						}
-						//onMapLoad={_.noop}
-						//onMapClick={_.noop}
-						markers={markers}
-						//onMarkerRightClick={_.noop}
-            toast={console.log}
-					/>
+				<div style={{height: '600px', width: '800px'}}>
+          <InfoMap markers={markers} />
 				</div>
       </div>
     );
