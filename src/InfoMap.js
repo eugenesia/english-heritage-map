@@ -2,12 +2,13 @@
  * Map with markers and info windows, passed in using props.
  */
 
-// This comment creates a global variable 'google'.
+// This comment tells JSHint that 'google' is defined globally and not to
+// output an error.
 /* global google */
 
 import { default as React, Component } from "react";
 
-import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
+import { GoogleMap, InfoWindow, Marker, withGoogleMap } from 'react-google-maps';
 
 /*
  * Sample From: https://developers.google.com/maps/documentation/javascript/examples/map-simple
@@ -22,7 +23,11 @@ const InfoGoogleMap = withGoogleMap(props => (
       <Marker
         key={index}
         position={new google.maps.LatLng(marker.position.lat, marker.position.lng)}
-      />
+      >
+        <InfoWindow>
+          <div>Index {index}</div>
+        </InfoWindow>
+      </Marker>
     ))}
   </GoogleMap>
 ));
