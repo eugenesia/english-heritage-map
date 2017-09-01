@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import InfoMap from './InfoMap';
 
+let ehBaseUrl = 'http://www.english-heritage.org.uk';
+
 class App extends Component {
 
   constructor(props) {
@@ -70,7 +72,19 @@ class App extends Component {
               let property = properties[i];
               markers.push({
                 position: { lat: property.lt, lng: property.lg },
-                infoContent: property.t,
+                infoContent:
+                  <div className='infowindow'>
+                    <h3 className='infowindow__title'>{property.t}</h3>
+                    <a className='infowindow__propertylink' href={ehBaseUrl + property.p} target="_blank">
+                      <img className='infowindow__image' src={ehBaseUrl + property.tui} />
+                    </a>
+                    <p className='infowindow__description'>{property.so}</p>
+                    <p className='infowindow__address'>
+                      <a className='infowindow__maplink' href={'https://maps.google.com/?q=' + property.add} target='_blank'>
+                        {property.add}
+                      </a>
+                    </p>
+                  </div>,
                 // Hide info window until clicked.
                 showInfo: false
               });

@@ -33,7 +33,7 @@ const InfoGoogleMap = withGoogleMap(props => (
 				>
 					{/* Show InfoWindow only if marker.showInfo is true */
 						marker.showInfo &&
-						<InfoWindow>
+						<InfoWindow onCloseClick={() => props.onMarkerClose(marker)}>
 							<div>{marker.infoContent}</div>
 						</InfoWindow>
 					}
@@ -59,6 +59,7 @@ export default class InfoMap extends Component {
         }
         markers={this.props.markers}
         onMarkerClick={this.props.onMarkerClick}
+        onMarkerClose={this.props.onMarkerClose}
       />
     );
   }

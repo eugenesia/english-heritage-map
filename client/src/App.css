@@ -23,3 +23,14 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.infowindow {
+  width: 240px;
+  text-align: left;
+}
+
+.infowindow__image {
+  float: left;
+  height: 80px;
+  margin-right: 10px;
+}
