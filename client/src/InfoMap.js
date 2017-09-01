@@ -11,6 +11,8 @@ import { default as React, Component } from "react";
 import { GoogleMap, InfoWindow, Marker, withGoogleMap } from 'react-google-maps';
 import MarkerClusterer from 'react-google-maps/lib/addons/MarkerClusterer';
 
+let ehPropertyIcon = 'http://www.english-heritage.org.uk/static/staticNM/icons/pin-single-property.png';
+
 /*
  * Sample From: https://developers.google.com/maps/documentation/javascript/examples/map-simple
  */
@@ -30,7 +32,7 @@ const InfoGoogleMap = withGoogleMap(props => (
 					key={index}
 					position={new google.maps.LatLng(marker.position.lat, marker.position.lng)}
           // Set image to EH property icon.
-          icon='http://www.english-heritage.org.uk/static/staticNM/icons/pin-single-property.png'
+          icon={ehPropertyIcon}
 					onClick={() => props.onMarkerClick(marker) }
 				>
 					{/* Show InfoWindow only if marker.showInfo is true */
