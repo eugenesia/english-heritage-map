@@ -9,6 +9,7 @@
 import { default as React, Component } from "react";
 
 import { GoogleMap, InfoWindow, Marker, withGoogleMap } from 'react-google-maps';
+import MarkerClusterer from 'react-google-maps/lib/addons/MarkerClusterer';
 
 /*
  * Sample From: https://developers.google.com/maps/documentation/javascript/examples/map-simple
@@ -18,21 +19,27 @@ const InfoGoogleMap = withGoogleMap(props => (
     defaultZoom={8}
     defaultCenter={{ lat: 51.510, lng: 0.118 }} // London
   >
-    {/* Render each marker. */}
-    {props.markers.map((marker, index) => (
-      <Marker
-        key={index}
-        position={new google.maps.LatLng(marker.position.lat, marker.position.lng)}
-        onClick={() => props.onMarkerClick(marker) }
-      >
-        {/* Show InfoWindow only if marker.showInfo is true */
-          marker.showInfo &&
-          <InfoWindow>
-            <div>{marker.infoContent}</div>
-          </InfoWindow>
-        }
-      </Marker>
-    ))}
+    <MarkerClusterer
+      averageCenter
+      enableRetinaIcons
+      gridSize={60}
+    >
+			{/* Render each marker. */}
+			{props.markers.map((marker, index) => (
+				<Marker
+					key={index}
+					position={new google.maps.LatLng(marker.position.lat, marker.position.lng)}
+					onClick={() => props.onMarkerClick(marker) }
+				>
+					{/* Show InfoWindow only if marker.showInfo is true */
+						marker.showInfo &&
+						<InfoWindow>
+							<div>{marker.infoContent}</div>
+						</InfoWindow>
+					}
+				</Marker>
+			))}
+    </MarkerClusterer>
   </GoogleMap>
 ));
 

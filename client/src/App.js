@@ -86,7 +86,7 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-				<div style={{height: '600px', width: '100%'}}>
+				<div style={{height: '560px', width: '100%'}}>
           <InfoMap markers={this.state.mapMarkers} onMarkerClick={this.handleMarkerClick} />
 				</div>
       </div>
