@@ -12,6 +12,7 @@ class App extends Component {
       mapMarkers: []
     };
     this.handleMarkerClick = this.handleMarkerClick.bind(this);
+    this.handleMarkerClose = this.handleMarkerClose.bind(this);
   }
 
   // Show the info window for the marker when clicked.
@@ -33,6 +34,26 @@ class App extends Component {
     this.setState({ mapMarkers: newMarkers });
   }
 
+  // Close info window when 'close' button clicked.
+  handleMarkerClose(targetMarker) {
+    // Update the target marker and create a new marker array with it.
+    let newMarkers = this.state.mapMarkers.map(marker => {
+      if (marker === targetMarker) {
+        return {
+          ...marker,
+          // Hide info window for clicked marker.
+          showInfo: false
+        }
+      }
+      else {
+        // Not the target marker, don't do anything.
+        return marker;
+      }
+    });
+    this.setState({ mapMarkers: newMarkers });
+  }
+
+  // Grab marker data from API.
   componentDidMount() {
     // Fetch property data and update state.
     fetch('/ehproperties')
@@ -69,7 +90,11 @@ class App extends Component {
         </div>
         <p className="App-intro"> Map of English Heritage properties and Associated Attractions. </p>
 				<div style={{height: '560px', width: '100%'}}>
-          <InfoMap markers={this.state.mapMarkers} onMarkerClick={this.handleMarkerClick} />
+          <InfoMap
+            markers={this.state.mapMarkers}
+            onMarkerClick={this.handleMarkerClick}
+            onMarkerClose={this.handleMarkerClose}
+          />
 				</div>
       </div>
     );
