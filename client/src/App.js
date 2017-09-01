@@ -24,8 +24,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // List of English Heritage properties.
-      ehproperties: {}
+      // List of markers on map.
+      mapMarkers: []
     };
   }
 
@@ -36,8 +36,22 @@ class App extends Component {
         return res.json();
       })
       .then(data => {
-        this.state.ehproperties = data;
+        let markers = [];
         console.log('data:', data);
+        for (let region in data.Region) {
+          for (let county in data.Region[region]) {
+            let properties = data.Region[region][county].properties;
+            for (let i=0; i<properties.length; i++) {
+              let property = properties[i];
+              markers.push({
+                position: { lat: property.lt, lng: property.lg },
+                infoContent: property.t,
+                showInfo: i % 10 === 0 ? true : false
+              });
+            }
+          }
+        }
+        this.setState({ mapMarkers: markers });
       });
   }
 
@@ -51,8 +65,8 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-				<div style={{height: '600px', width: '800px'}}>
-          <InfoMap markers={markers} />
+				<div style={{height: '600px', width: '100%'}}>
+          <InfoMap markers={this.state.mapMarkers} handleMarkerClick={f=>f} />
 				</div>
       </div>
     );

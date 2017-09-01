@@ -23,10 +23,14 @@ const InfoGoogleMap = withGoogleMap(props => (
       <Marker
         key={index}
         position={new google.maps.LatLng(marker.position.lat, marker.position.lng)}
+        onClick={() => props.onMarkerClick(marker) }
       >
-        <InfoWindow>
-          <div>{marker.infoContent}</div>
-        </InfoWindow>
+        {/* Show InfoWindow only if marker.showInfo is true */
+          marker.showInfo &&
+          <InfoWindow>
+            <div>{marker.infoContent}</div>
+          </InfoWindow>
+        }
       </Marker>
     ))}
   </GoogleMap>
@@ -47,6 +51,7 @@ export default class InfoMap extends Component {
           <div style={{ height: `100%` }} />
         }
         markers={this.props.markers}
+        omMarkerClick={this.props.handleMarkerClick}
       />
     );
   }
