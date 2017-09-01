@@ -40,8 +40,8 @@ const InfoGoogleMap = withGoogleMap(props => (
     <MarkerClusterer
       averageCenter
       enableRetinaIcons
-      gridSize={60}
-      minimumClusterSize={4}
+      gridSize={20}
+      //minimumClusterSize={4}
     >
 			{/* Render each marker. */}
 			{props.markers.map((marker, index) => (
