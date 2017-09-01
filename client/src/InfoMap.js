@@ -26,6 +26,7 @@ const InfoGoogleMap = withGoogleMap(props => (
       averageCenter
       enableRetinaIcons
       gridSize={60}
+      minimumClusterSize={4}
     >
 			{/* Render each marker. */}
 			{props.markers.map((marker, index) => (
