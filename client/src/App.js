@@ -18,7 +18,29 @@ const markers = [
   },
 ];
 
+
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      // List of English Heritage properties.
+      ehproperties: {}
+    };
+  }
+
+  componentDidMount() {
+    // Fetch property data and update state.
+    fetch('/ehproperties')
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        this.state.ehproperties = data;
+        console.log('data:', data);
+      });
+  }
+
   render() {
     return (
       <div className="App">
