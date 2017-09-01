@@ -50,6 +50,15 @@ router.get('/', function(req, res, next) {
       Object.entries(regionData.Region).forEach(([region, regData]) => {
         Object.entries(regData).forEach(([county, countyData]) => {
           countyData.properties.map(property => {
+
+            // Make all links open externally.
+            let description = property.so;
+            let linkRegex = /<a ([^>]+)>/;
+            if (description.match(linkRegex)) {
+              description = description.replace(linkRegex, '<a target="_blank" $1>'); 
+            }
+            property.so = description;
+
             // Make sure no properties are repeated, by setting the ID as key.
             allProperties[property.id] = property;
           });
