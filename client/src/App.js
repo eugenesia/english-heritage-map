@@ -4,6 +4,8 @@ import './App.css';
 import InfoMap from './InfoMap';
 
 let ehBaseUrl = 'http://www.english-heritage.org.uk';
+let ehPropertyIcon = ehBaseUrl + '/static/staticNM/icons/pin-single-property.png';
+let assocAttractIcon = ehBaseUrl + '/static/staticNM/icons/pin-single-other.png';
 
 class App extends Component {
 
@@ -128,7 +130,11 @@ class App extends Component {
           {/*<img src={logo} className="App-logo" alt="logo" />*/}
           <h2>Heritage map</h2>
         </div>
-        <p className="App-intro"> Map of English Heritage properties and Associated Attractions. </p>
+        <p className="App-intro"> Map of English Heritage properties 
+          <img src={ehPropertyIcon} />
+          and Associated Attractions
+          <img src={assocAttractIcon} />.
+        </p>
 				<div className="App-mapcontainer">
           <InfoMap
             markers={this.state.mapMarkers}
