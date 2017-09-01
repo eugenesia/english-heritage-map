@@ -14,15 +14,19 @@ import MarkerClusterer from 'react-google-maps/lib/addons/MarkerClusterer';
 let ehPropertyIcon = {
   url: 'http://www.english-heritage.org.uk/static/staticNM/icons/pin-single-property.png',
   scaledSize: new google.maps.Size(32, 50),
-  origin: new google.maps.Point(0, 0),
-  anchor: new google.maps.Point(16, 0),
+  // For label text placement.
+  origin: new google.maps.Point(0, -10),
+  // Base of icon in center.
+  anchor: new google.maps.Point(16, 50),
 }
 
 let assocAttractIcon = {
   url: 'http://www.english-heritage.org.uk/static/staticNM/icons/pin-single-other.png',
   scaledSize: new google.maps.Size(32, 50),
-  origin: new google.maps.Point(0, 0),
-  anchor: new google.maps.Point(16, 0),
+  // For label text placement.
+  origin: new google.maps.Point(0, -10),
+  // Base of icon in center.
+  anchor: new google.maps.Point(16, 50),
 }
 
 /*
