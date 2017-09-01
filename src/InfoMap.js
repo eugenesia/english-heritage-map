@@ -25,7 +25,7 @@ const InfoGoogleMap = withGoogleMap(props => (
         position={new google.maps.LatLng(marker.position.lat, marker.position.lng)}
       >
         <InfoWindow>
-          <div>Index {index}</div>
+          <div>{marker.infoContent}</div>
         </InfoWindow>
       </Marker>
     ))}

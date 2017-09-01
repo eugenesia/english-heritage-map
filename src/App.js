@@ -3,13 +3,18 @@ import logo from './logo.svg';
 import './App.css';
 import InfoMap from './InfoMap';
 
+
 // Show points on map.
-var markers = [
-  { // Lewisham station.
+const markers = [
+  {
     position: {lat: 51.4656554, lng: -0.0161922},
+    infoContent: 'Lewisham station',
+    showInfo: true,
   },
-  { // Luton.
+  {
     position: {lat: 51.8911008, lng: -0.4630409},
+    infoContent: 'Luton',
+    showInfo: true,
   },
 ];
 
