@@ -29,6 +29,8 @@ const InfoGoogleMap = withGoogleMap(props => (
 				<Marker
 					key={index}
 					position={new google.maps.LatLng(marker.position.lat, marker.position.lng)}
+          // Set image to EH property icon.
+          icon='http://www.english-heritage.org.uk/static/staticNM/icons/pin-single-property.png'
 					onClick={() => props.onMarkerClick(marker) }
 				>
 					{/* Show InfoWindow only if marker.showInfo is true */
