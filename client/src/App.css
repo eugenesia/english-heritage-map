@@ -24,6 +24,11 @@
   to { transform: rotate(360deg); }
 }
 
+.App-mapcontainer {
+  height: 700px;
+  width: 100%;
+}
+
 .infowindow {
   width: 240px;
   text-align: left;

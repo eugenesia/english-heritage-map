@@ -129,7 +129,7 @@ class App extends Component {
           <h2>Heritage map</h2>
         </div>
         <p className="App-intro"> Map of English Heritage properties and Associated Attractions. </p>
-				<div style={{height: '700px', width: '100%'}}>
+				<div className="App-mapcontainer">
           <InfoMap
             markers={this.state.mapMarkers}
             onMarkerClick={this.handleMarkerClick}

@@ -53,9 +53,10 @@ const InfoGoogleMap = withGoogleMap(props => (
           label={{
             text: marker.label,
             fontWeight: 'bold',
-            fontSize: '30px',
+            fontSize: '32px',
+            fontFamily: 'Times New Roman',
             // Choose label color to stand out against image background.
-            color: marker.iconType === 'ehproperty' ? '#000000' : '#00dd00',
+            color: marker.iconType === 'ehproperty' ? '#000000' : '#00bb00',
           }}
 					onClick={() => props.onMarkerClick(marker) }
 				>
