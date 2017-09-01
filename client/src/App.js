@@ -3,22 +3,6 @@ import logo from './logo.svg';
 import './App.css';
 import InfoMap from './InfoMap';
 
-
-// Show points on map.
-const markers = [
-  {
-    position: {lat: 51.4656554, lng: -0.0161922},
-    infoContent: 'Lewisham station',
-    showInfo: true,
-  },
-  {
-    position: {lat: 51.8911008, lng: -0.4630409},
-    infoContent: 'Luton',
-    showInfo: true,
-  },
-];
-
-
 class App extends Component {
 
   constructor(props) {
@@ -80,12 +64,10 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+          {/*<img src={logo} className="App-logo" alt="logo" />*/}
+          <h2>Heritage map</h2>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <p className="App-intro"> Map of English Heritage properties and Associated Attractions. </p>
 				<div style={{height: '560px', width: '100%'}}>
           <InfoMap markers={this.state.mapMarkers} onMarkerClick={this.handleMarkerClick} />
 				</div>
