@@ -30,12 +30,37 @@
 }
 
 .infowindow {
-  width: 240px;
+  width: 260px;
   text-align: left;
 }
 
-.infowindow__image {
+.infowindow__propertylink {
   float: left;
-  height: 80px;
   margin-right: 10px;
+  border: 1px solid transparent;
+}
+
+.infowindow__propertylink:hover {
+  border: 1px solid blue;
+}
+
+.infowindow__image {
+  height: 90px;
+  vertical-align: bottom;
+}
+
+.infowindow__maplink {
+  text-decoration: none;
+}
+
+.infowindow__maplink:hover {
+  text-decoration: underline;
+}
+
+.infowindow__description a {
+  text-decoration: none;
+}
+
+.infowindow__description a:hover {
+  text-decoration: underline;
 }
