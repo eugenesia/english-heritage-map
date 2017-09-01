@@ -27,6 +27,26 @@ class App extends Component {
       // List of markers on map.
       mapMarkers: []
     };
+    this.handleMarkerClick = this.handleMarkerClick.bind(this);
+  }
+
+  // Show the info window for the marker when clicked.
+  handleMarkerClick(targetMarker) {
+    // Update the target marker and create a new marker array with it.
+    let newMarkers = this.state.mapMarkers.map(marker => {
+      if (marker === targetMarker) {
+        return {
+          ...marker,
+          // Show info window for clicked marker.
+          showInfo: true
+        }
+      }
+      else {
+        // Not the target marker, don't do anything.
+        return marker;
+      }
+    });
+    this.setState({ mapMarkers: newMarkers });
   }
 
   componentDidMount() {
@@ -46,7 +66,8 @@ class App extends Component {
               markers.push({
                 position: { lat: property.lt, lng: property.lg },
                 infoContent: property.t,
-                showInfo: i % 10 === 0 ? true : false
+                // Hide info window until clicked.
+                showInfo: false
               });
             }
           }
@@ -66,7 +87,7 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
 				<div style={{height: '600px', width: '100%'}}>
-          <InfoMap markers={this.state.mapMarkers} handleMarkerClick={f=>f} />
+          <InfoMap markers={this.state.mapMarkers} onMarkerClick={this.handleMarkerClick} />
 				</div>
       </div>
     );

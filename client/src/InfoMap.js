@@ -51,7 +51,7 @@ export default class InfoMap extends Component {
           <div style={{ height: `100%` }} />
         }
         markers={this.props.markers}
-        omMarkerClick={this.props.handleMarkerClick}
+        onMarkerClick={this.props.onMarkerClick}
       />
     );
   }
