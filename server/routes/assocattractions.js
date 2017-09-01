@@ -22,20 +22,46 @@ const itemIds = {
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
+
+  // Accumulate all requests then continue when all finished.
+  // See https://stackoverflow.com/questions/10004112/how-can-i-wait-for-set-of-asynchronous-callback-functions
+  let requestPromises = [];
+
   for (let region in itemIds) {
     let itemId = itemIds[region];
     let url = assocAttractBaseUrl + itemId;
-    request(url, (error, resp, body) => {
-      res.setHeader('Content-Type', 'application/json');
-      res.send(body);
-    });
+    requestPromises.push(
+      new Promise((resolve, reject) => {
+        request(url, (error, resp, body) => {
+          if (error) {
+            console.log('rejected');
+            return reject(error);
+          }
+          resolve(JSON.parse(body));
+        });
+      })
+    );
   }
-  /*
-  request(ehPropertyUrl, (error, resp, body) => {
+
+  // Consolidate all properties.
+  let allProperties = {};
+  Promise.all(requestPromises).then((regionsData) => {
+    for (let i=0; i<regionsData.length; i++) {
+      let regData = regionsData[i];
+      for (let region in regData.Region) {
+        for (let county in regData.Region[region]) {
+          let properties = regData.Region[region][county].properties;
+          for (let j=0; j<properties.length; j++) {
+            // Make sure no properties are repeated, by setting the ID as key.
+            let property = properties[j];
+            allProperties[property.id] = property;
+          }
+        }
+      }
+    }
     res.setHeader('Content-Type', 'application/json');
-    res.send(body);
-  });
-  */
+    res.send(JSON.stringify(allProperties, null, 2));
+  })
 });
 
 module.exports = router;
