@@ -46,19 +46,17 @@ router.get('/', function(req, res, next) {
   // Consolidate all properties.
   let allProperties = {};
   Promise.all(requestPromises).then((regionsData) => {
-    for (let i=0; i<regionsData.length; i++) {
-      let regData = regionsData[i];
-      for (let region in regData.Region) {
-        for (let county in regData.Region[region]) {
-          let properties = regData.Region[region][county].properties;
-          for (let j=0; j<properties.length; j++) {
+    regionsData.map(regionData => {
+      Object.entries(regionData.Region).forEach(([region, regData]) => {
+        Object.entries(regData).forEach(([county, countyData]) => {
+          countyData.properties.map(property => {
             // Make sure no properties are repeated, by setting the ID as key.
-            let property = properties[j];
             allProperties[property.id] = property;
-          }
-        }
-      }
-    }
+          });
+        });
+      });
+    });
+
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify(allProperties, null, 2));
   })

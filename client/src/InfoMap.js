@@ -12,6 +12,7 @@ import { GoogleMap, InfoWindow, Marker, withGoogleMap } from 'react-google-maps'
 import MarkerClusterer from 'react-google-maps/lib/addons/MarkerClusterer';
 
 let ehPropertyIcon = 'http://www.english-heritage.org.uk/static/staticNM/icons/pin-single-property.png';
+let assocAttractIcon = 'http://www.english-heritage.org.uk/static/staticNM/icons/pin-single-other.png';
 
 /*
  * Sample From: https://developers.google.com/maps/documentation/javascript/examples/map-simple

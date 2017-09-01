@@ -86,7 +86,7 @@ class App extends Component {
                     </p>
                   </div>,
                 // Hide info window until clicked.
-                showInfo: false
+                showInfo: false,
               });
             }
           }

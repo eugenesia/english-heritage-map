@@ -12,8 +12,20 @@ const ehPropertyUrl = 'http://www.english-heritage.org.uk/ehAjax/NM_Ajax/GetData
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   request(ehPropertyUrl, (error, resp, body) => {
+    let data = JSON.parse(body);
+    // Extract only property data.
+    let allProperties = {};
+
+    Object.entries(data.Region).forEach(([region, regionData]) => {
+      Object.entries(regionData).forEach(([county, countyData]) => {
+        countyData.properties.map(property => {
+          allProperties[property.id] = property;
+        });
+      });
+    });
+
     res.setHeader('Content-Type', 'application/json');
-    res.send(body);
+    res.send(JSON.stringify(allProperties, null, 2));
   });
 });
 
