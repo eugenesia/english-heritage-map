@@ -50,8 +50,14 @@ const InfoGoogleMap = withGoogleMap(props => (
 					position={new google.maps.LatLng(marker.position.lat, marker.position.lng)}
           // Set image to EH property icon.
           icon={marker.iconType === 'ehproperty' ? ehPropertyIcon : assocAttractIcon}
+          label={{
+            text: marker.label,
+            fontWeight: 'bold',
+            fontSize: '30px',
+            // Choose label color to stand out against image background.
+            color: marker.iconType === 'ehproperty' ? '#000000' : '#00dd00',
+          }}
 					onClick={() => props.onMarkerClick(marker) }
-          label={marker.label}
 				>
 					{/* Show InfoWindow only if marker.showInfo is true */
 						marker.showInfo &&
