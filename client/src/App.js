@@ -107,7 +107,9 @@ class App extends Component {
         </div>,
       // Hide info window until clicked.
       showInfo: false,
-      iconType: iconType
+      iconType: iconType,
+      // Set first letter of property as label so easier to distinguish on map.
+      label: property.t.substring(0,1),
     };
     return marker;
   }
