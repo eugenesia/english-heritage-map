@@ -57,42 +57,66 @@ class App extends Component {
 
   // Grab marker data from API.
   componentDidMount() {
-    // Fetch property data and update state.
-    fetch('/ehproperties')
+
+    let promises = [
+      fetch('/ehproperties')
       .then(res => {
         return res.json();
-      })
-      .then(data => {
-        let markers = [];
-        console.log('data:', data);
-        for (let region in data.Region) {
-          for (let county in data.Region[region]) {
-            let properties = data.Region[region][county].properties;
-            for (let i=0; i<properties.length; i++) {
-              let property = properties[i];
-              markers.push({
-                position: { lat: property.lt, lng: property.lg },
-                infoContent:
-                  <div className='infowindow'>
-                    <h3 className='infowindow__title'>{property.t}</h3>
-                    <a className='infowindow__propertylink' href={ehBaseUrl + property.p} target="_blank">
-                      <img className='infowindow__image' src={ehBaseUrl + property.tui} />
-                    </a>
-                    <p className='infowindow__description'>{property.so}</p>
-                    <p className='infowindow__address'>
-                      <a className='infowindow__maplink' href={'https://maps.google.com/?q=' + property.add} target='_blank'>
-                        {property.add}
-                      </a>
-                    </p>
-                  </div>,
-                // Hide info window until clicked.
-                showInfo: false,
-              });
-            }
+      }),
+      fetch('/assocattractions')
+      .then(res => {
+        return res.json();
+      }),
+    ];
+
+    Promise.all(promises).then(allProperties => {
+      let markers = [];
+      allProperties.map((allProperty, index) => {
+        Object.entries(allProperty).forEach(([id, property]) => {
+          let iconType = 'ehproperty';
+          if (index === 1) {
+            iconType = 'assocattraction';
           }
-        }
-        this.setState({ mapMarkers: markers });
+          let marker = this.createMarkerObj(property, iconType);
+          markers.push(marker);
+        });
       });
+      this.setState({mapMarkers: markers});
+    });
+  }
+
+  /**
+   * Create a marker object to be fed into the component.
+   */
+  createMarkerObj(property, iconType) {
+    let marker = {
+      position: { lat: property.lt, lng: property.lg },
+      infoContent:
+        <div className='infowindow'>
+          <h3 className='infowindow__title'>{property.t}</h3>
+          <a className='infowindow__propertylink' href={ehBaseUrl + property.p} target="_blank">
+            <img className='infowindow__image' src={(property.tui.substring(0, 4) === 'http' ? '' : ehBaseUrl) + property.tui} />
+          </a>
+          {/* Some Assoc Attractions have HTML in description, need to preserve them. */}
+          <div className='infowindow__description' dangerouslySetInnerHTML={{__html: property.so}}></div>
+          <p className='infowindow__address'>
+            <a className='infowindow__maplink' href={'https://maps.google.com/?q=' + property.add} target='_blank'>
+              {property.add}
+            </a>
+          </p>
+        </div>,
+      // Hide info window until clicked.
+      showInfo: false,
+      iconType: iconType
+    };
+    return marker;
+  }
+
+  htmlDecode(input) {
+    var e = document.createElement('div');
+    e.innerHTML = input;
+    // handle case of empty input
+    return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
   }
 
   render() {

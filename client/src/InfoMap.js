@@ -33,7 +33,7 @@ const InfoGoogleMap = withGoogleMap(props => (
 					key={index}
 					position={new google.maps.LatLng(marker.position.lat, marker.position.lng)}
           // Set image to EH property icon.
-          icon={ehPropertyIcon}
+          icon={marker.iconType === 'ehproperty' ? ehPropertyIcon : assocAttractIcon}
 					onClick={() => props.onMarkerClick(marker) }
 				>
 					{/* Show InfoWindow only if marker.showInfo is true */
