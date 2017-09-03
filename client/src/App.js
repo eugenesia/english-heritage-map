@@ -17,11 +17,6 @@ class App extends Component {
       // List of attractions on map.
       attractions: []
     };
-  }
-
-  // Grab attraction data from API.
-  componentDidMount() {
-
     let attractionPromises = [
       this.fetchEhProperties(),
       this.fetchAssocAttractions(),
@@ -33,6 +28,11 @@ class App extends Component {
       const attractions = attractionLists[0].concat(attractionLists[1]);
       this.setState({attractions: attractions});
     });
+  }
+
+  // Grab attraction data from API.
+  componentDidMount() {
+
   }
 
   /**
@@ -91,7 +91,7 @@ class App extends Component {
         attract.link = info.link;
         attract.telephone = info.telephone;
         attract.description = info.description;
-        attract.image = ehBaseUrl + property.tui;
+        attract.image = property.tui;
 
         attractions.push(attract);
       });
@@ -106,18 +106,19 @@ class App extends Component {
    * mashed together.
    */
   parseAssocAttractDesc(desc) {
-    const regexStr = '^\n<p>\n?'
+    const regexStr = '^\\n<p>\\n?' +
       // Address (may be enclosed by <strong>)
-      + '(<strong>)?(.*?)\s?(</strong>)?\n</p>\n'
+      '(<strong>)?(.+?)\s?(<\/strong>)?\\n<\/p>\\n' +
       // Description (optional).
-      + '([\s\S]+)?'
+      '([\\s\\S]+)?' +
       // Discount info.
-      + '<p>\s?(<strong>[\s\S]+?)\s?\n</p>\n'
+      '<p>\\s?(<strong>[\\s\\S]+?)\\s?\\n<\/p>\\n' +
       // Telephone.
-      + '<p>\n(&nbsp;)?([\d\s]+)'
-      + '(&nbsp;|\s) |(&nbsp;)? '
+      '<p>\\n(&nbsp;)?([\\d\\s]+)' +
+      '(&nbsp;|\\s)?\\|(&nbsp;)? ' +
       // Link to webpage.
-      + '<a .*? href="(.*?)(\r\n){0,2}"';
+      '<a .+? href="(.+?)(\\r\\n){0,2}"';
+
     const re = new RegExp(regexStr);
 
     const matches = desc.match(re);

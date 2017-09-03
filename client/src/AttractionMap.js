@@ -49,8 +49,10 @@ function getPixelPositionOffset(width, height) {
  */
 const GMap = withGoogleMap(props => (
   <GoogleMap
+    ref={props.onMapMounted}
     defaultZoom={8}
     defaultCenter={{ lat: 51.510, lng: 0.118 }} // London
+    onZoomChanged={props.onZoomChanged}
   >
     <MarkerClusterer
       averageCenter
@@ -58,31 +60,37 @@ const GMap = withGoogleMap(props => (
       gridSize={20}
       //minimumClusterSize={4}
     >
-			{/* Render each attraction. */}
-			{props.attractions.map((attract, index) => (
+			{props.markers.map((marker, index) => (
 				<Marker
 					key={index}
-					position={new google.maps.LatLng(attract.lat, attract.lng)}
-          // Set image to EH property icon.
-          icon={attract.type === AttractionType.EH_PROPERTY ? ehPropertyIcon : assocAttractIcon}
-          label={{
-            // First letter of name.
-            text: attract.name.substring(0,1),
-            fontWeight: 'bold',
-            fontSize: '32px',
-            fontFamily: 'Times New Roman',
-            // Choose label color to stand out against image background.
-            color: attract.type === AttractionType.EH_PROPERTY ? '#000000' : '#00bb00',
-          }}
-					onClick={() => props.onMarkerClick(attract) }
+					position={new google.maps.LatLng(marker.lat, marker.lng)}
+					// Set image to EH property icon.
+					icon={marker.type === AttractionType.EH_PROPERTY ? ehPropertyIcon : assocAttractIcon}
+					label={{
+						// First letter of name.
+						text: marker.title.substring(0,1),
+						fontWeight: 'bold',
+						fontSize: '32px',
+						fontFamily: 'Times New Roman',
+						// Choose label color to stand out against image background.
+						color: marker.type === AttractionType.EH_PROPERTY ? '#000000' : '#00bb00',
+					}}
+					onClick={() => props.onMarkerClick(marker) }
 				>
-          <OverlayView
-            position={{ lat: attract.lat, lng: attract.lng }}
-            mapPaneName={OverlayView.OVERLAY_LAYER}
-            getPixelPositionOffset={getPixelPositionOffset}
-          >
-            <p>{attract.name}</p>
-          </OverlayView>
+					{marker.showInfo &&
+            <InfoWindow onCloseClick={() => props.onMarkerClose(marker)}>
+              {marker.infoWindowContent}
+            </InfoWindow>
+					}
+          {props.showOverlays &&
+            <OverlayView
+              position={{ lat: marker.lat, lng: marker.lng }}
+              mapPaneName={OverlayView.OVERLAY_LAYER}
+              getPixelPositionOffset={getPixelPositionOffset}
+            >
+              <p>{marker.title}</p>
+            </OverlayView>
+          }
 				</Marker>
 			))}
     </MarkerClusterer>
@@ -94,13 +102,138 @@ const GMap = withGoogleMap(props => (
  */
 export default class AttractionMap extends Component {
 
-  // Show the InfoWindow for the marker.
-  onMarkerClick(targetMarker) {
+	constructor(props) {
+		super(props);
+		this.state = {
+			markers: [],
+      zoom: 4,
+      // Whether to show attraction name on ground in an overlay.
+      showOverlays: false,
+		}
+		this.handleMarkerClick = this.handleMarkerClick.bind(this);
+		this.handleMarkerClose = this.handleMarkerClose.bind(this);
+		this.handleMapMounted = this.handleMapMounted.bind(this);
+		this.handleZoomChanged = this.handleZoomChanged.bind(this);
+	}
+	
+	componentDidUpdate(prevProps, prevState) {
+    if (this.props === prevProps) {
+      return;
+    }
+    let markers = this.props.attractions.map((attract, index) => {
+
+      let description =
+        (attract.description ? attract.description : '') +
+        (attract.discount ? '<br/>' + attract.discount : '') +
+        (attract.telephone ? '<br/>' + attract.telephone : '');
+
+			return {
+				title: attract.name,
+				description: attract.description,
+				image: attract.image,
+				link: attract.link,
+				lat: attract.lat,
+				lng: attract.lng,
+				type: attract.type,
+        // Whether to show info window.
+				showInfo: false,
+				infoWindowContent: (
+					<div className='infowindow'>
+						<h3 className='infowindow__title'>{attract.name}</h3>
+						<a className='infowindow__propertylink' href={attract.link} 
+							target="_blank">
+							<img className='infowindow__image' src={attract.image} />
+						</a>
+						{/* Some Assoc Attractions have HTML in description, need to preserve them. */}
+						<div className='infowindow__description' 
+							dangerouslySetInnerHTML={{__html: description}}></div>
+						<p className='infowindow__address'>
+							<a className='infowindow__maplink'
+								href={'https://maps.google.com/?q=' + attract.name + ', ' +
+                attract.address}
+								target='_blank'>
+								{attract.address}
+							</a>
+						</p>
+					</div>
+				),
+			};
+    });
+		this.setState({
+      ...this.state,
+			markers: markers
+		});
+	}
+
+
+  // Need to get ref to map, to get zoom.
+  handleMapMounted(map) {
+    this._map = map;
   }
 
-  // Hide the InfoWindow for the marker.
-  onMarkerClose(targetMarker) {
+
+  // Only show ground text at high zoom.
+  handleZoomChanged() {
+
+    const nextZoom = this._map.getZoom();
+    let showOverlays = this.state.showOverlays;
+
+    if (nextZoom >= 10 & ! this.state.showOverlays) { 
+      // Show all ground text.
+      showOverlays = true;
+    }
+    else if (nextZoom <= 9 && this.state.showOverlays) {
+      // Hide all ground text.
+      showOverlays = false;
+    }
+    this.setState({
+      ...this.state,
+      zoom: nextZoom,
+      showOverlays: showOverlays,
+    });
   }
+
+
+  // Show the InfoWindow for the marker.
+  handleMarkerClick(targetMarker) {
+    //console.log(this._map.getZoom());
+    // Update the target marker and create a new marker array with it.
+    let newMarkers = this.state.markers.map(marker => {
+      if (marker === targetMarker) {
+        return {
+          ...marker,
+          // Show info window for clicked marker.
+          showInfo: true
+        }
+      }
+      else {
+        // Not the target marker, don't do anything.
+        return marker;
+      }
+    });
+    this.setState({ markers: newMarkers });
+  }
+
+
+  // Hide the InfoWindow for the marker.
+  handleMarkerClose(targetMarker) {
+    // Update the target marker and create a new marker array with it.
+    let newMarkers = this.state.markers.map(marker => {
+      if (marker === targetMarker) {
+        return {
+          ...marker,
+          // Hide info window for clicked marker.
+          showInfo: false
+        }
+      }
+      else {
+        // Not the target marker, don't do anything.
+        return marker;
+      }
+    });
+    this.setState({ markers: newMarkers });
+  }
+
 
   render() {
     return (
@@ -111,9 +244,12 @@ export default class AttractionMap extends Component {
         mapElement={
           <div style={{ height: '100%' }} />
         }
-        attractions={this.props.attractions}
-        onMarkerClick={this.onMarkerClick}
-        onMarkerClose={this.onMarkerClose}
+        markers={this.state.markers}
+        onMarkerClick={this.handleMarkerClick}
+        onMarkerClose={this.handleMarkerClose}
+        onZoomChanged={this.handleZoomChanged}
+        onMapMounted={this.handleMapMounted}
+        showOverlays={this.state.showOverlays}
       />
     );
   }
