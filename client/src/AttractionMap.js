@@ -106,7 +106,6 @@ export default class AttractionMap extends Component {
 		super(props);
 		this.state = {
 			markers: [],
-      zoom: 4,
       // Whether to show attraction name on ground in an overlay.
       showOverlays: false,
 		}
@@ -176,7 +175,7 @@ export default class AttractionMap extends Component {
   handleZoomChanged() {
 
     const nextZoom = this._map.getZoom();
-    let showOverlays = this.state.showOverlays;
+    let showOverlays = false;
 
     if (nextZoom >= 10 & ! this.state.showOverlays) { 
       // Show all ground text.
@@ -186,11 +185,13 @@ export default class AttractionMap extends Component {
       // Hide all ground text.
       showOverlays = false;
     }
-    this.setState({
-      ...this.state,
-      zoom: nextZoom,
-      showOverlays: showOverlays,
-    });
+    // Don't change state unnecessarily.
+    if (showOverlays !== this.state.showOverlays) {
+      this.setState({
+        ...this.state,
+        showOverlays: showOverlays,
+      });
+    }
   }
 
 
