@@ -25,6 +25,10 @@ class Attraction {
     this.link = null;
     // Physical address.
     this.address = null;
+    // Information about any ticket discounts.
+    this.discount = null;
+    // Telephone number.
+    this.telephone = null;
   }
 }
 
