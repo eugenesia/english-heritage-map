@@ -175,13 +175,14 @@ export default class AttractionMap extends Component {
   handleZoomChanged() {
 
     const nextZoom = this._map.getZoom();
-    let showOverlays = false;
+    console.log('nextZoom', nextZoom);
+    let showOverlays = this.state.showOverlays;
 
     if (nextZoom >= 10 & ! this.state.showOverlays) { 
       // Show all ground text.
       showOverlays = true;
     }
-    else if (nextZoom <= 9 && this.state.showOverlays) {
+    else if (nextZoom < 10 && this.state.showOverlays) {
       // Hide all ground text.
       showOverlays = false;
     }
