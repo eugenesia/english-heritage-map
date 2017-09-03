@@ -1,5 +1,5 @@
 /**
- * Map with markers and info windows, passed in using props.
+ * Map to show a list of attractions.
  */
 
 // This comment tells JSHint that 'google' is defined globally and not to
@@ -10,6 +10,7 @@ import { default as React, Component } from "react";
 
 import { GoogleMap, InfoWindow, Marker, OverlayView, withGoogleMap } from 'react-google-maps';
 import MarkerClusterer from 'react-google-maps/lib/addons/MarkerClusterer';
+import { AttractionType } from './Attraction';
 
 let ehPropertyIcon = {
   url: 'http://www.english-heritage.org.uk/static/staticNM/icons/pin-single-property.png',
@@ -37,7 +38,7 @@ function getPixelPositionOffset(width, height) {
 /*
  * Sample From: https://developers.google.com/maps/documentation/javascript/examples/map-simple
  */
-const InfoGoogleMap = withGoogleMap(props => (
+const GMap = withGoogleMap(props => (
   <GoogleMap
     defaultZoom={8}
     defaultCenter={{ lat: 51.510, lng: 0.118 }} // London
@@ -48,35 +49,33 @@ const InfoGoogleMap = withGoogleMap(props => (
       gridSize={20}
       //minimumClusterSize={4}
     >
-			{/* Render each marker. */}
-			{props.markers.map((marker, index) => (
+			{/* Render each attraction. */}
+			{props.attractions.map((attract, index) => (
 				<Marker
 					key={index}
-					position={new google.maps.LatLng(marker.position.lat, marker.position.lng)}
+					position={new google.maps.LatLng(attract.lat, attract.lng)}
           // Set image to EH property icon.
-          icon={marker.iconType === 'ehproperty' ? ehPropertyIcon : assocAttractIcon}
+          icon={attract.type === AttractionType.EH_PROPERTY ? ehPropertyIcon : assocAttractIcon}
           label={{
-            text: marker.label,
+            // First letter of name.
+            text: attract.name.substring(0,1),
             fontWeight: 'bold',
             fontSize: '32px',
             fontFamily: 'Times New Roman',
             // Choose label color to stand out against image background.
-            color: marker.iconType === 'ehproperty' ? '#000000' : '#00bb00',
+            color: attract.type === AttractionType.EH_PROPERTY ? '#000000' : '#00bb00',
           }}
-					onClick={() => props.onMarkerClick(marker) }
+					onClick={() => props.onMarkerClick(attract) }
 				>
-					{/* Show InfoWindow only if marker.showInfo is true */
-						marker.showInfo &&
-						<InfoWindow onCloseClick={() => props.onMarkerClose(marker)}>
-							<div>{marker.infoContent}</div>
-						</InfoWindow>
-					}
+          {/*
           <OverlayView
-            position={{ lat: marker.position.lat, lng: marker.position.lng }}
+            position={{ lat: attract.lat, lng: attract.lng }}
             mapPaneName={OverlayView.OVERLAY_LAYER}
             getPixelPositionOffset={getPixelPositionOffset}
           >
-          <p>Hey there how are you</p></OverlayView>
+            <p>{attract.name}</p>
+          </OverlayView>
+          */}
 				</Marker>
 			))}
     </MarkerClusterer>
@@ -86,20 +85,28 @@ const InfoGoogleMap = withGoogleMap(props => (
 /*
  * Add <script src="https://maps.googleapis.com/maps/api/js"></script> to your HTML to provide google.maps reference
  */
-export default class InfoMap extends Component {
+export default class AttractionMap extends Component {
+
+  // Show the InfoWindow for the marker.
+  onMarkerClick(targetMarker) {
+  }
+
+  // Hide the InfoWindow for the marker.
+  onMarkerClose(targetMarker) {
+  }
 
   render() {
     return (
-      <InfoGoogleMap
+      <GMap
         containerElement={
-          <div style={{ height: `100%` }} />
+          <div style={{ height: '100%' }} />
         }
         mapElement={
-          <div style={{ height: `100%` }} />
+          <div style={{ height: '100%' }} />
         }
-        markers={this.props.markers}
-        onMarkerClick={this.props.onMarkerClick}
-        onMarkerClose={this.props.onMarkerClose}
+        attractions={this.props.attractions}
+        onMarkerClick={this.onMarkerClick}
+        onMarkerClose={this.onMarkerClose}
       />
     );
   }
