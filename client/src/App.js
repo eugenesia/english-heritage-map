@@ -63,38 +63,12 @@ class App extends Component {
     });
   }
 
+
   /**
    * Fetch the Associated Attractions data from API, and convert them to
    * Attraction objects.
    */
   fetchAssocAttractions() {
-
-    // Parse description from API data, and split it up into useful parts.
-    const parseDescription = desc => {
-      const regexStr = '^\n<p>\n?'
-        // Address (may be enclosed by <strong>)
-        + '(<strong>)?(.*?)\s?(</strong>)?\n</p>\n'
-        // Description (optional).
-        + '([\s\S]+)?'
-        // Discount info.
-        + '<p>\s?(<strong>[\s\S]+?)\s?\n</p>\n'
-        // Telephone.
-        + '<p>\n(&nbsp;)?([\d\s]+)'
-        + '(&nbsp;|\s) |(&nbsp;)? '
-        // Link to webpage.
-        + '<a .*? href="(.*?)(\r\n){0,2}"';
-      const re = new RegExp(regexStr);
-
-      const matches = desc.match(re);
-
-      return {
-        address: matches[2],
-        description: matches[4],
-        discount: matches[5],
-        telephone: matches[7],
-        link: matches[10],
-      }
-    }
 
     return fetch('/assocattractions')
     .then(res => {
@@ -110,7 +84,7 @@ class App extends Component {
           AttractionType.ASSOC_ATTRACTION
         );
 
-        let info = parseDescription(property.so);
+        let info = this.parseAssocAttractDesc(property.so);
 
         attract.address = info.address;
         attract.discount = info.discount;
@@ -124,6 +98,40 @@ class App extends Component {
       return attractions;
     });
   }
+
+
+  /**
+   * Parse the description field of an Associated Attraction retrieved from the
+   * API, and split it up into useful parts. The field contains too much info
+   * mashed together.
+   */
+  parseAssocAttractDesc(desc) {
+    const regexStr = '^\n<p>\n?'
+      // Address (may be enclosed by <strong>)
+      + '(<strong>)?(.*?)\s?(</strong>)?\n</p>\n'
+      // Description (optional).
+      + '([\s\S]+)?'
+      // Discount info.
+      + '<p>\s?(<strong>[\s\S]+?)\s?\n</p>\n'
+      // Telephone.
+      + '<p>\n(&nbsp;)?([\d\s]+)'
+      + '(&nbsp;|\s) |(&nbsp;)? '
+      // Link to webpage.
+      + '<a .*? href="(.*?)(\r\n){0,2}"';
+    const re = new RegExp(regexStr);
+
+    const matches = desc.match(re);
+
+    return {
+      address: matches[2],
+      description: matches[4],
+      discount: matches[5],
+      telephone: matches[7],
+      link: matches[10],
+    }
+  }
+
+
   /**
    * Create an Attraction object representing the property retrieved from API.
    */
