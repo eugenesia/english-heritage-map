@@ -73,14 +73,14 @@ class App extends Component {
     const parseDescription = desc => {
       const regexStr = '^\n<p>\n?'
         // Address (may be enclosed by <strong>)
-        + '(<strong>)?(.*?)\s?(<\/strong>)?\n<\/p>\n'
+        + '(<strong>)?(.*?)\s?(</strong>)?\n</p>\n'
         // Description (optional).
         + '([\s\S]+)?'
         // Discount info.
-        + '<p>\s?(<strong>[\s\S]+?)\s?\n<\/p>\n'
+        + '<p>\s?(<strong>[\s\S]+?)\s?\n</p>\n'
         // Telephone.
         + '<p>\n(&nbsp;)?([\d\s]+)'
-        + '(&nbsp;|\s)\|(&nbsp;)? '
+        + '(&nbsp;|\s) |(&nbsp;)? '
         // Link to webpage.
         + '<a .*? href="(.*?)(\r\n){0,2}"';
       const re = new RegExp(regexStr);
