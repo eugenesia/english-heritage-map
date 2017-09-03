@@ -31,9 +31,18 @@ let assocAttractIcon = {
 }
 
 
+/**
+ * Function for positioning the custom overlay.
+ * Position it slightly lower than centre.
+ */
 function getPixelPositionOffset(width, height) {
-  return { x: -(width / 2), y: -(height / 2) };
+  return {
+    x: -(width / 2),
+    // 20px below centre.
+    y: -(height / 2) + 20
+  };
 }
+
 
 /*
  * Sample From: https://developers.google.com/maps/documentation/javascript/examples/map-simple
@@ -67,7 +76,6 @@ const GMap = withGoogleMap(props => (
           }}
 					onClick={() => props.onMarkerClick(attract) }
 				>
-          {/*
           <OverlayView
             position={{ lat: attract.lat, lng: attract.lng }}
             mapPaneName={OverlayView.OVERLAY_LAYER}
@@ -75,7 +83,6 @@ const GMap = withGoogleMap(props => (
           >
             <p>{attract.name}</p>
           </OverlayView>
-          */}
 				</Marker>
 			))}
     </MarkerClusterer>
