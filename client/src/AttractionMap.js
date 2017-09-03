@@ -175,7 +175,6 @@ export default class AttractionMap extends Component {
   handleZoomChanged() {
 
     const nextZoom = this._map.getZoom();
-    console.log('nextZoom', nextZoom);
     let showOverlays = this.state.showOverlays;
 
     if (nextZoom >= 10 & ! this.state.showOverlays) { 
@@ -198,7 +197,6 @@ export default class AttractionMap extends Component {
 
   // Show the InfoWindow for the marker.
   handleMarkerClick(targetMarker) {
-    //console.log(this._map.getZoom());
     // Update the target marker and create a new marker array with it.
     let newMarkers = this.state.markers.map(marker => {
       if (marker === targetMarker) {
