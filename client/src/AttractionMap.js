@@ -138,7 +138,9 @@ export default class AttractionMap extends Component {
 				showInfo: false,
 				infoWindowContent: (
 					<div className='infowindow'>
-						<h3 className='infowindow__title'>{attract.name}</h3>
+						<h3 className='infowindow__title'>
+              <a href={attract.link} target="_blank">{attract.name}</a>
+            </h3>
 						<a className='infowindow__propertylink' href={attract.link} 
 							target="_blank">
 							<img className='infowindow__image' src={attract.image} />
