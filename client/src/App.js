@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import InfoMap from './InfoMap';
 import { Attraction, AttractionType } from './Attraction';
 import AttractionMap from './AttractionMap';
 
@@ -109,11 +108,11 @@ class App extends Component {
   parseAssocAttractDesc(desc) {
     const regexStr = '^\\n<p>\\n?' +
       // Address (may be enclosed by <strong>)
-      '(<strong>)?(.+?)\s?(<\/strong>)?\\n<\/p>\\n' +
+      '(<strong>)?(.+?) ?(</strong>)?\\n</p>\\n' +
       // Description (optional).
       '([\\s\\S]+)?' +
       // Discount info.
-      '<p>\\s?(<strong>[\\s\\S]+?)\\s?\\n<\/p>\\n' +
+      '<p>\\s?(<strong>[\\s\\S]+?)\\s?\\n</p>\\n' +
       // Telephone.
       '<p>\\n(&nbsp;)?([\\d\\s]+)' +
       '(&nbsp;|\\s)?\\|(&nbsp;)? ' +
