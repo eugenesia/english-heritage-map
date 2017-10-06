@@ -102,20 +102,24 @@ const GMap = withGoogleMap(props => (
  */
 export default class AttractionMap extends Component {
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			markers: [],
+ constructor(props) {
+  super(props);
+  this.state = {
+   markers: [],
       // Whether to show attraction name on ground in an overlay.
       showOverlays: false,
-		}
-		this.handleMarkerClick = this.handleMarkerClick.bind(this);
-		this.handleMarkerClose = this.handleMarkerClose.bind(this);
-		this.handleMapMounted = this.handleMapMounted.bind(this);
-		this.handleZoomChanged = this.handleZoomChanged.bind(this);
-	}
-	
-	componentDidUpdate(prevProps, prevState) {
+  }
+  this.handleMarkerClick = this.handleMarkerClick.bind(this);
+  this.handleMarkerClose = this.handleMarkerClose.bind(this);
+    this.handleMapMounted = this.handleMapMounted.bind(this);
+    this.handleZoomChanged = this.handleZoomChanged.bind(this);
+  }
+
+  // Create markers.
+  componentDidMount() {
+  }
+
+  componentDidUpdate(prevProps, prevState) {
     if (this.props === prevProps) {
       return;
     }
@@ -126,45 +130,45 @@ export default class AttractionMap extends Component {
         (attract.discount ? '<br/>' + attract.discount : '') +
         (attract.telephone ? '<br/>' + attract.telephone : '');
 
-			return {
-				title: attract.name,
-				description: attract.description,
-				image: attract.image,
-				link: attract.link,
-				lat: attract.lat,
-				lng: attract.lng,
-				type: attract.type,
+   return {
+    title: attract.name,
+    description: attract.description,
+    image: attract.image,
+    link: attract.link,
+    lat: attract.lat,
+    lng: attract.lng,
+    type: attract.type,
         // Whether to show info window.
-				showInfo: false,
-				infoWindowContent: (
-					<div className='infowindow'>
-						<h3 className='infowindow__title'>
+    showInfo: false,
+    infoWindowContent: (
+     <div className='infowindow'>
+      <h3 className='infowindow__title'>
               <a href={attract.link} target="_blank">{attract.name}</a>
             </h3>
-						<a className='infowindow__propertylink' href={attract.link} 
-							target="_blank">
-							<img className='infowindow__image' src={attract.image} />
-						</a>
-						{/* Some Assoc Attractions have HTML in description, need to preserve them. */}
-						<div className='infowindow__description' 
-							dangerouslySetInnerHTML={{__html: description}}></div>
-						<p className='infowindow__address'>
-							<a className='infowindow__maplink'
-								href={'https://maps.google.com/?q=' + attract.name + ', ' +
+      <a className='infowindow__propertylink' href={attract.link} 
+       target="_blank">
+       <img className='infowindow__image' src={attract.image} />
+      </a>
+      {/* Some Assoc Attractions have HTML in description, need to preserve them. */}
+      <div className='infowindow__description' 
+       dangerouslySetInnerHTML={{__html: description}}></div>
+      <p className='infowindow__address'>
+       <a className='infowindow__maplink'
+        href={'https://maps.google.com/?q=' + attract.name + ', ' +
                 attract.address}
-								target='_blank'>
-								{attract.address}
-							</a>
-						</p>
-					</div>
-				),
-			};
+        target='_blank'>
+        {attract.address}
+       </a>
+      </p>
+     </div>
+    ),
+   };
     });
-		this.setState({
+  this.setState({
       ...this.state,
-			markers: markers
-		});
-	}
+   markers: markers
+  });
+ }
 
 
   // Need to get ref to map, to get zoom.

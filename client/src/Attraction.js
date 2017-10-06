@@ -11,7 +11,9 @@ const AttractionType = {
 // A tourist attraction.
 class Attraction {
 
-  constructor(name, lat, lng, type=AttractionType.EH_PROPERTY) {
+  constructor(id, name, lat, lng, type=AttractionType.EH_PROPERTY) {
+    // Numeric ID from English Heritage database.
+    this.id = id;
     this.name = name;
     this.lat = lat;
     this.lng = lng;

@@ -47,6 +47,7 @@ class App extends Component {
       const attractions = [];
       Object.entries(allProperties).forEach(([id, property]) => {
         let attract = new Attraction(
+          property.id,
           property.t,
           parseFloat(property.lt),
           parseFloat(property.lg),
@@ -77,6 +78,7 @@ class App extends Component {
       const attractions = [];
       Object.entries(allProperties).forEach(([id, property]) => {
         let attract = new Attraction(
+          property.id,
           property.t,
           parseFloat(property.lt),
           parseFloat(property.lg),
