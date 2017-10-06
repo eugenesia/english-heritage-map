@@ -60,28 +60,28 @@ const GMap = withGoogleMap(props => (
       gridSize={20}
       //minimumClusterSize={4}
     >
-			{props.markers.map((marker, index) => (
-				<Marker
-					key={index}
-					position={new google.maps.LatLng(marker.lat, marker.lng)}
-					// Set image to EH property icon.
-					icon={marker.type === AttractionType.EH_PROPERTY ? ehPropertyIcon : assocAttractIcon}
-					label={{
-						// First letter of name.
-						text: marker.title.substring(0,1),
-						fontWeight: 'bold',
-						fontSize: '32px',
-						fontFamily: 'Times New Roman',
-						// Choose label color to stand out against image background.
-						color: marker.type === AttractionType.EH_PROPERTY ? '#000000' : '#00bb00',
-					}}
-					onClick={() => props.onMarkerClick(marker) }
-				>
-					{marker.showInfo &&
+      {props.markers.map((marker, index) => (
+        <Marker
+          key={marker.id}
+          position={new google.maps.LatLng(marker.lat, marker.lng)}
+          // Set image to EH property icon.
+          icon={marker.type === AttractionType.EH_PROPERTY ? ehPropertyIcon : assocAttractIcon}
+          label={{
+            // First letter of name.
+            text: marker.title.substring(0,1),
+            fontWeight: 'bold',
+            fontSize: '32px',
+            fontFamily: 'Times New Roman',
+            // Choose label color to stand out against image background.
+            color: marker.type === AttractionType.EH_PROPERTY ? '#000000' : '#00bb00',
+          }}
+          onClick={() => props.onMarkerClick(marker) }
+        >
+          {marker.showInfo &&
             <InfoWindow onCloseClick={() => props.onMarkerClose(marker)}>
               {marker.infoWindowContent}
             </InfoWindow>
-					}
+          }
           {props.showOverlays &&
             <OverlayView
               position={{ lat: marker.lat, lng: marker.lng }}
@@ -91,8 +91,8 @@ const GMap = withGoogleMap(props => (
               <p>{marker.title}</p>
             </OverlayView>
           }
-				</Marker>
-			))}
+        </Marker>
+      ))}
     </MarkerClusterer>
   </GoogleMap>
 ));
@@ -130,45 +130,46 @@ export default class AttractionMap extends Component {
         (attract.discount ? '<br/>' + attract.discount : '') +
         (attract.telephone ? '<br/>' + attract.telephone : '');
 
-   return {
-    title: attract.name,
-    description: attract.description,
-    image: attract.image,
-    link: attract.link,
-    lat: attract.lat,
-    lng: attract.lng,
-    type: attract.type,
-        // Whether to show info window.
-    showInfo: false,
-    infoWindowContent: (
-     <div className='infowindow'>
-      <h3 className='infowindow__title'>
-              <a href={attract.link} target="_blank">{attract.name}</a>
-            </h3>
-      <a className='infowindow__propertylink' href={attract.link} 
-       target="_blank">
-       <img className='infowindow__image' src={attract.image} />
-      </a>
-      {/* Some Assoc Attractions have HTML in description, need to preserve them. */}
-      <div className='infowindow__description' 
-       dangerouslySetInnerHTML={{__html: description}}></div>
-      <p className='infowindow__address'>
-       <a className='infowindow__maplink'
-        href={'https://maps.google.com/?q=' + attract.name + ', ' +
-                attract.address}
-        target='_blank'>
-        {attract.address}
-       </a>
-      </p>
-     </div>
-    ),
-   };
+      return {
+        id: attract.id,
+        title: attract.name,
+        description: attract.description,
+        image: attract.image,
+        link: attract.link,
+        lat: attract.lat,
+        lng: attract.lng,
+        type: attract.type,
+            // Whether to show info window.
+        showInfo: false,
+        infoWindowContent: (
+         <div className='infowindow'>
+          <h3 className='infowindow__title'>
+                  <a href={attract.link} target="_blank">{attract.name}</a>
+                </h3>
+          <a className='infowindow__propertylink' href={attract.link} 
+           target="_blank">
+           <img className='infowindow__image' src={attract.image} />
+          </a>
+          {/* Some Assoc Attractions have HTML in description, need to preserve them. */}
+          <div className='infowindow__description' 
+           dangerouslySetInnerHTML={{__html: description}}></div>
+          <p className='infowindow__address'>
+           <a className='infowindow__maplink'
+            href={'https://maps.google.com/?q=' + attract.name + ', ' +
+                    attract.address}
+            target='_blank'>
+            {attract.address}
+           </a>
+          </p>
+         </div>
+        ),
+      };
     });
-  this.setState({
+    this.setState({
       ...this.state,
-   markers: markers
-  });
- }
+      markers: markers
+    });
+  }
 
 
   // Need to get ref to map, to get zoom.
