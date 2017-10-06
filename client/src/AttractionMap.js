@@ -102,15 +102,15 @@ const GMap = withGoogleMap(props => (
  */
 export default class AttractionMap extends Component {
 
- constructor(props) {
-  super(props);
-  this.state = {
-   markers: [],
+  constructor(props) {
+    super(props);
+    this.state = {
+      markers: [],
       // Whether to show attraction name on ground in an overlay.
       showOverlays: false,
-  }
-  this.handleMarkerClick = this.handleMarkerClick.bind(this);
-  this.handleMarkerClose = this.handleMarkerClose.bind(this);
+    }
+    this.handleMarkerClick = this.handleMarkerClick.bind(this);
+    this.handleMarkerClose = this.handleMarkerClose.bind(this);
     this.handleMapMounted = this.handleMapMounted.bind(this);
     this.handleZoomChanged = this.handleZoomChanged.bind(this);
   }
