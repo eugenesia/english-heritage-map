@@ -110,7 +110,7 @@ class App extends Component {
       // Address (may be enclosed by <strong>)
       '(<strong>)?(.+?) ?(</strong>)?\\n</p>\\n' +
       // Description (optional).
-      '([\\s\\S]+)?' +
+      '(<p>\\n([\\s\\S]+)\\n</p>\\n)?' +
       // Discount info.
       '<p>\\s?(<strong>[\\s\\S]+?)\\s?\\n</p>\\n' +
       // Telephone.
@@ -125,10 +125,10 @@ class App extends Component {
 
     return {
       address: matches[2],
-      description: matches[4],
-      discount: matches[5],
-      telephone: matches[7],
-      link: matches[10],
+      description: matches[5],
+      discount: matches[6],
+      telephone: matches[8],
+      link: matches[11],
     }
   }
 

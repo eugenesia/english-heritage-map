@@ -126,9 +126,9 @@ export default class AttractionMap extends Component {
     let markers = this.props.attractions.map((attract, index) => {
 
       let description =
-        (attract.description ? attract.description : '') +
-        (attract.discount ? '<br/>' + attract.discount : '') +
-        (attract.telephone ? '<br/>' + attract.telephone : '');
+        (attract.description ? `<p>${attract.description}</p>` : '') +
+        (attract.discount ? `<p>Discount: ${attract.discount}</p>` : '') +
+        (attract.telephone ? `<p>Tel: ${attract.telephone}</p>` : '');
 
       return {
         id: attract.id,
