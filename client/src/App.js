@@ -17,6 +17,10 @@ class App extends Component {
       // List of attractions on map.
       attractions: []
     };
+  }
+
+  // Grab attraction data from API.
+  componentDidMount() {
     let attractionPromises = [
       this.fetchEhProperties(),
       this.fetchAssocAttractions(),
@@ -28,11 +32,6 @@ class App extends Component {
       const attractions = attractionLists[0].concat(attractionLists[1]);
       this.setState({attractions: attractions});
     });
-  }
-
-  // Grab attraction data from API.
-  componentDidMount() {
-
   }
 
   /**
@@ -142,6 +141,7 @@ class App extends Component {
     attract.address = property.add;
     return attract;
   }
+
 
   render() {
     return (
