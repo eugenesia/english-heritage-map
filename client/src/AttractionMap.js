@@ -139,29 +139,29 @@ export default class AttractionMap extends Component {
         lat: attract.lat,
         lng: attract.lng,
         type: attract.type,
-            // Whether to show info window.
+        // Whether to show info window.
         showInfo: false,
         infoWindowContent: (
-         <div className='infowindow'>
-          <h3 className='infowindow__title'>
-                  <a href={attract.link} target="_blank">{attract.name}</a>
-                </h3>
-          <a className='infowindow__propertylink' href={attract.link} 
-           target="_blank">
-           <img className='infowindow__image' src={attract.image} />
-          </a>
-          {/* Some Assoc Attractions have HTML in description, need to preserve them. */}
-          <div className='infowindow__description' 
-           dangerouslySetInnerHTML={{__html: description}}></div>
-          <p className='infowindow__address'>
-           <a className='infowindow__maplink'
-            href={'https://maps.google.com/?q=' + attract.name + ', ' +
-                    attract.address}
-            target='_blank'>
-            {attract.address}
-           </a>
-          </p>
-         </div>
+          <div className='infowindow'>
+            <h3 className='infowindow__title'>
+              <a href={attract.link} target="_blank">{attract.name}</a>
+            </h3>
+            <a className='infowindow__propertylink' href={attract.link}
+              target="_blank">
+              <img className='infowindow__image' src={attract.image} />
+            </a>
+            {/* Some Assoc Attractions have HTML in description, need to preserve them. */}
+            <div className='infowindow__description'
+              dangerouslySetInnerHTML={{__html: description}}></div>
+            <p className='infowindow__address'>
+              <a className='infowindow__maplink'
+                href={'https://maps.google.com/?q=' + attract.name + ', ' +
+                attract.address}
+                target='_blank'>
+                {attract.address}
+              </a>
+            </p>
+          </div>
         ),
       };
     });
