@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import './App.css';
 import AttractionMap from './AttractionMap';
 import PopularFilter from './PopularFilter';
+import CategoryFilter from './CategoryFilter';
 
 const ehBaseUrl = 'http://www.english-heritage.org.uk';
 const ehPropertyIcon = ehBaseUrl + '/static/staticNM/icons/pin-single-property.png';
@@ -12,6 +13,14 @@ class App extends Component {
 
   constructor(props) {
     super(props);
+
+    let catFilterInitState = {
+      ...CategoryFilter.categoryLabels
+    };
+    Object.entries(CategoryFilter.categoryLabels).forEach(([catId]) => {
+      catFilterInitState[catId] = false;
+    });
+
     this.state = {
       // List of attractions on map.
       attractions: [],
@@ -22,8 +31,11 @@ class App extends Component {
       },
       // Whether to show only popular attractions.
       popularFilter: false,
+      categoryFilter: catFilterInitState,
     };
+
     this.handlePopularFilterChange = this.handlePopularFilterChange.bind(this);
+    this.handleCategoryFilterChange = this.handleCategoryFilterChange.bind(this);
     this.filterAttractions = this.filterAttractions.bind(this);
   }
 
@@ -116,6 +128,20 @@ class App extends Component {
   }
 
 
+  // Handle category filter check/uncheck.
+  handleCategoryFilterChange(catId, value) {
+    let categoryState = {
+      ...this.state.categoryFilter
+    };
+    categoryState[catId] = value;
+
+    this.setState({
+      ...this.state,
+      categoryFilter: categoryState,
+    });
+  }
+
+
   render() {
     return (
       <div className="App">
@@ -131,6 +157,7 @@ class App extends Component {
         <div className="App-content">
           <div className="App-sidebar">
             <PopularFilter value={this.state.popularFilter} onChange={this.handlePopularFilterChange} />
+            <CategoryFilter categories={this.state.categoryFilter} onChange={this.handleCategoryFilterChange} />
           </div>
           <div className="App-mapcontainer">
             <AttractionMap attractions={this.filterAttractions()} />
