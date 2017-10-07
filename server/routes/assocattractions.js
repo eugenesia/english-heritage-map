@@ -32,7 +32,7 @@ function parseRawDesc(desc) {
     // Address (may be enclosed by <strong>)
     '(<strong>)?(.+?) ?(</strong>)?\\n</p>\\n' +
     // Description (optional).
-    '(<p>\\n([\\s\\S]+)\\n</p>\\n)?' +
+    '(<p>\\n([\\s\\S]+\\S)\\s?\\n</p>\\n)?' +
     // Discount info.
     '<p>\\s?(<strong>[\\s\\S]+?)\\s?\\n</p>\\n' +
     // Telephone.
