@@ -58,8 +58,6 @@ class App extends Component {
       const attractions = [];
       Object.entries(allProperties).forEach(([id, property]) => {
         let attract = property;
-        // Show the attraction initially.
-        attract.visible = true;
         attractions.push(attract);
       });
       return attractions;
@@ -81,8 +79,6 @@ class App extends Component {
       const attractions = [];
       Object.entries(allProperties).forEach(([id, property]) => {
         let attract = property;
-        // Show the attraction initially.
-        attract.visible = true;
         attractions.push(attract);
       });
       return attractions;

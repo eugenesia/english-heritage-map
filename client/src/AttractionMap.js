@@ -65,7 +65,6 @@ const GMap = withGoogleMap(props => (
           key={marker.id}
           attractionId={marker.id}
           position={new google.maps.LatLng(marker.lat, marker.lng)}
-          visible={marker.visible}
           // Set image to EH property icon.
           icon={marker.ownership === 'eh_property' ? ehPropertyIcon : assocAttractIcon}
           label={{
@@ -141,7 +140,6 @@ export default class AttractionMap extends Component {
         lat: attract.lat,
         lng: attract.lng,
         ownership: attract.ownership,
-        visible: attract.visible,
         // Whether to show info window.
         showInfo: false,
         infoWindowContent: (
