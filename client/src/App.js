@@ -111,13 +111,52 @@ class App extends Component {
 
   // Filter all the attractions through selected criteria.
   filterAttractions() {
+
+    // If nothing is checked, show nothing.
+    let allCategoriesFalse = Object.keys(this.state.categoryFilter)
+      .every(catId => {
+        return ! this.state.categoryFilter[catId];
+      });
+
+    // Category IDs selected.
+    let selectedCatIds = Object.keys(this.state.categoryFilter)
+      .filter(catId => {
+        if (this.state.categoryFilter[catId]) {
+          return true;
+        }
+        return false;
+      });
+
+    // Labels of categories selected.
+    let selectedCatLabels = selectedCatIds.map(catId => {
+      return CategoryFilter.categoryLabels[catId];
+    });
+
     let newAttractions = this.state.attractions.map(attract => {
       // Whether this attraction is visible.
-      let visible = true;
-      // Popularity filter is on, show all attractions.
-      if (this.state.popularFilter && ! attract.popular) {
-        visible = false;
+      let visible = false;
+
+      // Nothing was checked, show everything.
+      if (! this.state.popularFilter && allCategoriesFalse) {
+        visible = true;
       }
+
+      // This is a popular attraction, show it.
+      if (this.state.popularFilter && attract.popular) {
+        visible = true;
+      }
+
+      // Check if the categories match any of our selected ones.
+      let categoryMatch = selectedCatLabels.some(label => {
+        if (attract.categories.indexOf(label) !== -1) {
+          return true;
+        }
+        return false;
+      });
+      if (categoryMatch) {
+        visible = true;
+      }
+
       let newAttract = {
         ...attract,
         visible: visible,
