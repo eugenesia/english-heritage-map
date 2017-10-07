@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/eugenesia/heritage-map/issues"
   },
-  "homepage": "https://github.com/eugenesia/heritage-map#readme"
+  "homepage": "https://github.com/eugenesia/heritage-map#readme",
+  "engines": {
+    "node": "8.6.x"
+  }
 }
