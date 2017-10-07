@@ -1,0 +1,21 @@
+{
+  "name": "english-heritage-map",
+  "version": "1.0.0",
+  "description": "Map of English Heritage properties and Associated Attractions.",
+  "main": "index.js",
+  "//": "postinstall: Allow custom installation steps on Heroku.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "cd server && npm install && cd ../client && npm install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eugenesia/heritage-map.git"
+  },
+  "author": "Eugene Sia <eugene@eugenesia.co.uk>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eugenesia/heritage-map/issues"
+  },
+  "homepage": "https://github.com/eugenesia/heritage-map#readme"
+}
