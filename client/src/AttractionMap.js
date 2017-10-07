@@ -8,7 +8,7 @@
 
 import { default as React, Component } from "react";
 
-import { GoogleMap, InfoWindow, OverlayView, withGoogleMap } from 'react-google-maps';
+import { GoogleMap, InfoWindow, Marker, OverlayView, withGoogleMap } from 'react-google-maps';
 import MarkerClusterer from 'react-google-maps/lib/addons/MarkerClusterer';
 import { default as AttractionMarker } from './AttractionMarker';
 
@@ -61,7 +61,7 @@ const GMap = withGoogleMap(props => (
       //minimumClusterSize={4}
     >
       {props.markers.map((marker, index) => (
-        <AttractionMarker
+        <Marker
           key={marker.id}
           attractionId={marker.id}
           position={new google.maps.LatLng(marker.lat, marker.lng)}
@@ -92,7 +92,7 @@ const GMap = withGoogleMap(props => (
               <p>{marker.title}</p>
             </OverlayView>
           }
-        </AttractionMarker>
+        </Marker>
       ))}
     </MarkerClusterer>
   </GoogleMap>
