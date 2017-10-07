@@ -159,8 +159,8 @@ export default class AttractionMap extends Component {
               <a className='infowindow__maplink'
                 href={'https://maps.google.com/?q=' + attract.name + ', ' +
                 attract.address}
-                target='_blank'>
-                {attract.address}
+                target='_blank'
+                dangerouslySetInnerHTML={{__html: attract.address}}>
               </a>
             </p>
           </div>
