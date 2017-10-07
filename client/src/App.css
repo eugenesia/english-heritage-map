@@ -55,6 +55,7 @@
 }
 
 .infowindow__image {
+  width: 100px;
   height: 80px;
   vertical-align: bottom;
 }
