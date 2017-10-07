@@ -111,6 +111,9 @@ router.get('/', function(req, res, next) {
               address: info.address,
               link: info.link,
               telephone: info.telephone,
+              // Whether it belongs to English Heritage, or is an Associated
+              // Attraction.
+              ownership: 'assoc_attraction',
             };
 
             // Make all links open externally.
