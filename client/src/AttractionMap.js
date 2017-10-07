@@ -8,7 +8,7 @@
 
 import { default as React, Component } from "react";
 
-import { GoogleMap, InfoWindow, Marker, OverlayView, withGoogleMap } from 'react-google-maps';
+import { GoogleMap, InfoWindow, OverlayView, withGoogleMap } from 'react-google-maps';
 import MarkerClusterer from 'react-google-maps/lib/addons/MarkerClusterer';
 import { default as AttractionMarker } from './AttractionMarker';
 
@@ -149,7 +149,7 @@ export default class AttractionMap extends Component {
             </h3>
             <a className='infowindow__propertylink' href={attract.link}
               target="_blank">
-              <img className='infowindow__image' src={attract.image} />
+              <img className='infowindow__image' src={attract.image} alt={attract.name} />
             </a>
             {/* Some Assoc Attractions have HTML in description, need to preserve them. */}
             <div className='infowindow__description'
@@ -159,8 +159,7 @@ export default class AttractionMap extends Component {
                 href={'https://maps.google.com/?q=' + attract.name + ', ' +
                 attract.address}
                 target='_blank'
-                dangerouslySetInnerHTML={{__html: attract.address}}>
-              </a>
+                dangerouslySetInnerHTML={{__html: attract.address}} />
             </p>
           </div>
         ),

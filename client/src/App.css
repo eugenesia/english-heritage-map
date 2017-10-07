@@ -29,6 +29,13 @@
   width: 100%;
 }
 
+.App-sidebar {
+  float: left;
+  width: 200px;
+  height: 100%;
+  background-color: green;
+}
+
 .infowindow {
   width: 240px;
   text-align: left;

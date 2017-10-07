@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 import AttractionMap from './AttractionMap';
 
@@ -82,15 +82,17 @@ class App extends Component {
           <h2>Heritage map</h2>
         </div>
         <p className="App-intro"> Map of English Heritage properties 
-          <img src={ehPropertyIcon} />
+          <img src={ehPropertyIcon} alt="English Heritage property icon" />
           and Associated Attractions
-          <img src={assocAttractIcon} />.
+          <img src={assocAttractIcon} alt="Associated Attraction icon" />.
         </p>
 				<div className="App-mapcontainer">
           <AttractionMap
             attractions={this.state.attractions}
           />
 				</div>
+        <div className="App-sidebar">
+        </div>
       </div>
     );
   }
