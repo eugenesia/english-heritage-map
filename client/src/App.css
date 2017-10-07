@@ -45,7 +45,11 @@ html, body, #root {
 
 .App-sidebar {
   flex: initial;
-  width: 200px;
+
+  /* Hide sidebar temporarily. */
+  /* width: 200px; */
+  width: 0px;
+
   background-color: green;
 }
 
