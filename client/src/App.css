@@ -15,17 +15,37 @@ html, body, #root {
 }
 
 .App-header {
-  background-color: #222;
-  /*height: 150px;*/
-  /*height: 40px;*/
-  /*padding: 20px;*/
-  color: white;
+  display: flex;
+  flex-direction: row;
   flex: initial;
+  padding: 0px 20px;
+  background-color: #222;
+  color: white;
 }
 
+.App-title {
+  flex: 1;
+  text-align: left;
+}
+
+.App-subtitle {
+  flex: 1;
+  padding: 26px;
+  text-align: left;
+
+  text-decoration: none;
+  color: lightblue;
+}
+
+.App-subtitle:hover {
+  color: white;
+}
+
+
 .App-intro {
-  font-size: large;
-  flex: initial;
+  flex: 5;
+  text-align: right;
+  font-size: small;
 }
 
 @keyframes App-logo-spin {
