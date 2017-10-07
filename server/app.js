@@ -23,11 +23,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// Serve React app client-side files from their directory. This is for us
+// Serve built React app client-side files from their directory. This is for us
 // to run the client and server apps on the same port in production.
 // See https://www.ibm.com/blogs/bluemix/2017/06/react-web-express-api-development-production/
 // In development it will still use the proxy in ../client/package.json
-app.use(express.static(path.join(__dirname, '..', 'client', 'public')));
+app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
 
 app.use('/', index);
 app.use('/users', users);
