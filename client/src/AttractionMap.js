@@ -59,6 +59,7 @@ const GMap = withGoogleMap(props => (
       enableRetinaIcons
       gridSize={20}
       //minimumClusterSize={4}
+      ignoreHidden={true}
     >
       {props.markers.map((marker, index) => (
         <Marker
