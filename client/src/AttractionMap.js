@@ -65,8 +65,9 @@ const GMap = withGoogleMap(props => (
           key={marker.id}
           attractionId={marker.id}
           position={new google.maps.LatLng(marker.lat, marker.lng)}
+          visible={marker.visible}
           // Set image to EH property icon.
-          icon={marker.type === 'ehproperty' ? ehPropertyIcon : assocAttractIcon}
+          icon={marker.ownership === 'eh_property' ? ehPropertyIcon : assocAttractIcon}
           label={{
             // First letter of name.
             text: marker.title.substring(0,1),
@@ -74,7 +75,7 @@ const GMap = withGoogleMap(props => (
             fontSize: '32px',
             fontFamily: 'Times New Roman',
             // Choose label color to stand out against image background.
-            color: marker.type === 'ehproperty' ? '#000000' : '#00bb00',
+            color: marker.ownership === 'eh_property' ? '#000000' : '#00bb00',
           }}
           onClick={() => props.onMarkerClick(marker) }
         >
@@ -139,7 +140,8 @@ export default class AttractionMap extends Component {
         link: attract.link,
         lat: attract.lat,
         lng: attract.lng,
-        type: attract.type,
+        ownership: attract.ownership,
+        visible: attract.visible,
         // Whether to show info window.
         showInfo: false,
         infoWindowContent: (

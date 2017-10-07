@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 // import logo from './logo.svg';
 import './App.css';
 import AttractionMap from './AttractionMap';
-import CategoryFilter from './CategoryFilter';
+import PopularFilter from './PopularFilter';
 
 const ehBaseUrl = 'http://www.english-heritage.org.uk';
 const ehPropertyIcon = ehBaseUrl + '/static/staticNM/icons/pin-single-property.png';
@@ -14,8 +14,17 @@ class App extends Component {
     super(props);
     this.state = {
       // List of attractions on map.
-      attractions: []
+      attractions: [],
+      // Show English Heritage properties only, or Associated Attractions only.
+      ownershipFilter: {
+        eh_property: true,
+        assoc_attraction: true,
+      },
+      // Whether to show only popular attractions.
+      popularFilter: false,
     };
+    this.handlePopularFilterChange = this.handlePopularFilterChange.bind(this);
+    this.filterAttractions = this.filterAttractions.bind(this);
   }
 
   // Grab attraction data from API.
@@ -29,7 +38,10 @@ class App extends Component {
     Promise.all(attractionPromises).then(attractionLists => {
       // Consolidate EH property attractions and Associated Attractions.
       const attractions = attractionLists[0].concat(attractionLists[1]);
-      this.setState({attractions: attractions});
+      this.setState({
+        ...this.state,
+        attractions: attractions,
+      });
     });
   }
 
@@ -46,7 +58,8 @@ class App extends Component {
       const attractions = [];
       Object.entries(allProperties).forEach(([id, property]) => {
         let attract = property;
-        attract.type = 'ehproperty';
+        // Show the attraction initially.
+        attract.visible = true;
         attractions.push(attract);
       });
       return attractions;
@@ -68,12 +81,45 @@ class App extends Component {
       const attractions = [];
       Object.entries(allProperties).forEach(([id, property]) => {
         let attract = property;
-        attract.type = 'assocattraction';
+        // Show the attraction initially.
+        attract.visible = true;
         attractions.push(attract);
       });
       return attractions;
     });
   }
+
+
+  /**
+   * Filter attractions based on "Most popular" status.
+   */
+  handlePopularFilterChange(showPopular) {
+    this.setState({
+      ...this.state,
+      popularFilter: showPopular,
+    });
+  }
+
+
+  // Filter all the attractions through selected criteria, and return a
+  // pruned array of attractions.
+  filterAttractions() {
+    let allAttractions = this.state.attractions;
+
+    let filteredAttractions = allAttractions.filter(attract => {
+      // Popularity filter is off, show all attractions.
+      if (! this.state.popularFilter) {
+        return true;
+      }
+      // Popularity filter is on, only show popular attractions.
+      else if (attract.popular) {
+        return true;
+      }
+      return false;
+    });
+    return filteredAttractions;
+  }
+
 
   render() {
     return (
@@ -89,11 +135,12 @@ class App extends Component {
         </p>
         <div className="App-content">
           <div className="App-sidebar">
-            <CategoryFilter />
+            <PopularFilter onChange={this.handlePopularFilterChange} />
           </div>
           <div className="App-mapcontainer">
+            {/* Pass a filtered list of attractions to the map. */}
             <AttractionMap
-              attractions={this.state.attractions}
+              attractions={this.filterAttractions()}
             />
           </div>
         </div>

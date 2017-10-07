@@ -19,10 +19,10 @@ class AttractionMarker extends Marker {
   shouldComponentUpdate(nextProps) {
     // For a marker, only the child components (InfoWindow etc.) will change
     // with user interaction. So only update if the children change.
-    if (arrayCompare(this.props.children, nextProps.children)) {
-      return false;
+    if (! arrayCompare(this.props.children, nextProps.children)) {
+      return true;
     }
-    return true;
+    return false;
   }
 }
 
