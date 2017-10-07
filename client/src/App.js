@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 // import logo from './logo.svg';
 import './App.css';
 import AttractionMap from './AttractionMap';
+import CategoryFilter from './CategoryFilter';
 
 const ehBaseUrl = 'http://www.english-heritage.org.uk';
 const ehPropertyIcon = ehBaseUrl + '/static/staticNM/icons/pin-single-property.png';
@@ -88,7 +89,7 @@ class App extends Component {
         </p>
         <div className="App-content">
           <div className="App-sidebar">
-            <p>Test</p>
+            <CategoryFilter />
           </div>
           <div className="App-mapcontainer">
             <AttractionMap

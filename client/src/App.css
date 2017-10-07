@@ -45,12 +45,10 @@ html, body, #root {
 
 .App-sidebar {
   flex: initial;
-
-  /* Hide sidebar temporarily. */
-  /* width: 200px; */
-  width: 0px;
-
-  background-color: green;
+  width: 160px;
+  padding: 20px;
+  text-align: left;
+  background-color: lightblue;
 }
 
 .infowindow {
