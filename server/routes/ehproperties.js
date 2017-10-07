@@ -3,29 +3,57 @@
  * This can only be done server-side as they have a restrictive
  * Access-Control-Allow-Origin header.
  */
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const request = require('request');
+const fetch = require('../modules/ehproperties');
 
-const ehPropertyUrl = 'http://www.english-heritage.org.uk/ehAjax/NM_Ajax/GetDataForMap.ashx?category=Property';
+const ehPropertyApiUrl =
+  'http://www.english-heritage.org.uk/ehAjax/NM_Ajax/GetDataForMap.ashx?'
+  + 'category=Property';
 
-/* GET users listing. */
+const ehBaseUrl = 'http://www.english-heritage.org.uk';
+
 router.get('/', function(req, res, next) {
-  request(ehPropertyUrl, (error, resp, body) => {
+  request(ehPropertyApiUrl, (error, resp, body) => {
+
+    // List of attraction objects in a standardised format.
+    let attractions = {};
+
     let data = JSON.parse(body);
-    // Extract only property data.
-    let allProperties = {};
 
     Object.entries(data.Region).forEach(([region, regionData]) => {
       Object.entries(regionData).forEach(([county, countyData]) => {
         countyData.properties.map(property => {
-          allProperties[property.id] = property;
+
+          let attract = {
+            id: property.id,
+            name: property.t,
+            lat: parseFloat(property.lt),
+            lng: parseFloat(property.lg),
+            address: property.add,
+            description: property.s,
+            region: property.r,
+            county: property.c,
+            link: ehBaseUrl + property.p,
+            image: ehBaseUrl + property.tui,
+            // Whether free entry for everyone (regardless of EH membership).
+            freeEntry: property.fe === 'yes' ? true : false,
+            // Whether it's one of the most popular attractions.
+            popular: property.tp === 'yes' ? true : false,
+            categories: property.ia,
+            facilities: property.kf,
+            discount: null,
+            telephone: null,
+          };
+
+          attractions[property.id] = attract;
         });
       });
     });
 
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(allProperties, null, 2));
+    res.send(JSON.stringify(attractions, null, 2));
   });
 });
 

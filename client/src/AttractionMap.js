@@ -10,7 +10,6 @@ import { default as React, Component } from "react";
 
 import { GoogleMap, InfoWindow, Marker, OverlayView, withGoogleMap } from 'react-google-maps';
 import MarkerClusterer from 'react-google-maps/lib/addons/MarkerClusterer';
-import { AttractionType } from './Attraction';
 import { default as AttractionMarker } from './AttractionMarker';
 
 let ehPropertyIcon = {
@@ -67,7 +66,7 @@ const GMap = withGoogleMap(props => (
           attractionId={marker.id}
           position={new google.maps.LatLng(marker.lat, marker.lng)}
           // Set image to EH property icon.
-          icon={marker.type === AttractionType.EH_PROPERTY ? ehPropertyIcon : assocAttractIcon}
+          icon={marker.type === 'ehproperty' ? ehPropertyIcon : assocAttractIcon}
           label={{
             // First letter of name.
             text: marker.title.substring(0,1),
@@ -75,7 +74,7 @@ const GMap = withGoogleMap(props => (
             fontSize: '32px',
             fontFamily: 'Times New Roman',
             // Choose label color to stand out against image background.
-            color: marker.type === AttractionType.EH_PROPERTY ? '#000000' : '#00bb00',
+            color: marker.type === 'ehproperty' ? '#000000' : '#00bb00',
           }}
           onClick={() => props.onMarkerClick(marker) }
         >

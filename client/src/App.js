@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Attraction, AttractionType } from './Attraction';
 import AttractionMap from './AttractionMap';
 
 const ehBaseUrl = 'http://www.english-heritage.org.uk';
@@ -45,17 +44,8 @@ class App extends Component {
     .then(allProperties => {
       const attractions = [];
       Object.entries(allProperties).forEach(([id, property]) => {
-        let attract = new Attraction(
-          property.id,
-          property.t,
-          parseFloat(property.lt),
-          parseFloat(property.lg),
-          AttractionType.EH_PROPERTY
-        );
-        attract.description = property.so;
-        attract.address = property.add;
-        attract.link = ehBaseUrl + property.p;
-        attract.image = ehBaseUrl + property.tui;
+        let attract = property;
+        attract.type = 'ehproperty';
         attractions.push(attract);
       });
       return attractions;
@@ -76,73 +66,13 @@ class App extends Component {
     .then(allProperties => {
       const attractions = [];
       Object.entries(allProperties).forEach(([id, property]) => {
-        let attract = new Attraction(
-          property.id,
-          property.t,
-          parseFloat(property.lt),
-          parseFloat(property.lg),
-          AttractionType.ASSOC_ATTRACTION
-        );
-
-        let info = this.parseAssocAttractDesc(property.so);
-
-        attract.address = info.address;
-        attract.discount = info.discount;
-        attract.link = info.link;
-        attract.telephone = info.telephone;
-        attract.description = info.description;
-        attract.image = property.tui;
-
+        let attract = property;
+        attract.type = 'assocattraction';
         attractions.push(attract);
       });
       return attractions;
     });
   }
-
-
-  /**
-   * Parse the description field of an Associated Attraction retrieved from the
-   * API, and split it up into useful parts. The field contains too much info
-   * mashed together.
-   */
-  parseAssocAttractDesc(desc) {
-    const regexStr = '^\\n<p>\\n?' +
-      // Address (may be enclosed by <strong>)
-      '(<strong>)?(.+?) ?(</strong>)?\\n</p>\\n' +
-      // Description (optional).
-      '(<p>\\n([\\s\\S]+)\\n</p>\\n)?' +
-      // Discount info.
-      '<p>\\s?(<strong>[\\s\\S]+?)\\s?\\n</p>\\n' +
-      // Telephone.
-      '<p>\\n(&nbsp;)?([\\d\\s]+)' +
-      '(&nbsp;|\\s)?\\|(&nbsp;)? ' +
-      // Link to webpage.
-      '<a .+? href="(.+?)(\\r\\n){0,2}"';
-
-    const re = new RegExp(regexStr);
-
-    const matches = desc.match(re);
-
-    return {
-      address: matches[2],
-      description: matches[5],
-      discount: matches[6],
-      telephone: matches[8],
-      link: matches[11],
-    }
-  }
-
-
-  /**
-   * Create an Attraction object representing the property retrieved from API.
-   */
-  createAttraction(property, attractType) {
-    const attract = new Attraction(property.t, property.lt, property.lg, attractType);
-    attract.description = property.so;
-    attract.address = property.add;
-    return attract;
-  }
-
 
   render() {
     return (

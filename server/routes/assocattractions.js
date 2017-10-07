@@ -3,11 +3,14 @@
  * This can only be done server-side as they have a restrictive
  * Access-Control-Allow-Origin header.
  */
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const request = require('request');
 
-const assocAttractBaseUrl = 'http://www.english-heritage.org.uk/ehAjax/NM_Ajax/GetDataForMap.ashx?category=MapGroup&itemid='
+const ehBaseUrl = 'http://www.english-heritage.org.uk';
+
+const assocAttractApiUrl = 'http://www.english-heritage.org.uk/ehAjax/NM_Ajax/GetDataForMap.ashx?category=MapGroup&itemid='
+
 const itemIds = {
   southeast: 3196439,
   southwest: 3195805,
@@ -18,9 +21,41 @@ const itemIds = {
   north: 3196857,
 }
 
-// TODO: Merge all the attractions into one large list, and return it.
 
-/* GET users listing. */
+/**
+ * Parse the description field of an Associated Attraction retrieved from the
+ * API, and split it up into useful parts. The field contains too much info
+ * mashed together.
+ */
+function parseRawDesc(desc) {
+  const regexStr = '^\\n<p>\\n?' +
+    // Address (may be enclosed by <strong>)
+    '(<strong>)?(.+?) ?(</strong>)?\\n</p>\\n' +
+    // Description (optional).
+    '(<p>\\n([\\s\\S]+)\\n</p>\\n)?' +
+    // Discount info.
+    '<p>\\s?(<strong>[\\s\\S]+?)\\s?\\n</p>\\n' +
+    // Telephone.
+    '<p>\\n(&nbsp;)?(\\d[\\d\\s]+\\d)' +
+    '(&nbsp;|\\s)?\\|(&nbsp;)? ' +
+    // Link to webpage.
+    '<a\\b.+?\\bhref="(.+?)(\\r\\n){0,2}"';
+
+  const re = new RegExp(regexStr);
+
+  const matches = desc.match(re);
+
+  return {
+    address: matches[2],
+    description: matches[5],
+    discount: matches[6],
+    telephone: matches[8],
+    link: matches[11],
+  }
+}
+
+
+
 router.get('/', function(req, res, next) {
 
   // Accumulate all requests then continue when all finished.
@@ -29,7 +64,7 @@ router.get('/', function(req, res, next) {
 
   for (let region in itemIds) {
     let itemId = itemIds[region];
-    let url = assocAttractBaseUrl + itemId;
+    let url = assocAttractApiUrl + itemId;
     requestPromises.push(
       new Promise((resolve, reject) => {
         request(url, (error, resp, body) => {
@@ -44,30 +79,59 @@ router.get('/', function(req, res, next) {
   }
 
   // Consolidate all properties.
-  let allProperties = {};
+  let attractions = {};
+
   Promise.all(requestPromises).then((regionsData) => {
     regionsData.map(regionData => {
       Object.entries(regionData.Region).forEach(([region, regData]) => {
         Object.entries(regData).forEach(([county, countyData]) => {
           countyData.properties.map(property => {
 
+            // Split description up into useful fields.
+            let info = parseRawDesc(property.so);
+
+            let attract = {
+              id: property.id,
+              name: property.t,
+              lat: parseFloat(property.lt),
+              lng: parseFloat(property.lg),
+              region: region,
+              county: county,
+              image: property.tui,
+              // Whether free entry for everyone (regardless of EH membership).
+              freeEntry: false,
+              // Whether it's one of the most popular attractions.
+              popular: false,
+              categories: [],
+              facilities: [],
+
+              // Fields extracted from parsed description.
+              description: info.description,
+              discount: info.discount,
+              address: info.address,
+              link: info.link,
+              telephone: info.telephone,
+            };
+
             // Make all links open externally.
+            /*
             let description = property.so;
             let linkRegex = /<a ([^>]+)>/;
             if (description.match(linkRegex)) {
               description = description.replace(linkRegex, '<a target="_blank" $1>'); 
             }
             property.so = description;
+            */
 
             // Make sure no properties are repeated, by setting the ID as key.
-            allProperties[property.id] = property;
+            attractions[property.id] = attract;
           });
         });
       });
     });
 
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(allProperties, null, 2));
+    res.send(JSON.stringify(attractions, null, 2));
   })
 });
 
