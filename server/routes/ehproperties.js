@@ -6,7 +6,6 @@
 const express = require('express');
 const router = express.Router();
 const request = require('request');
-const fetch = require('../modules/ehproperties');
 
 const ehPropertyApiUrl =
   'http://www.english-heritage.org.uk/ehAjax/NM_Ajax/GetDataForMap.ashx?'
