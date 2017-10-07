@@ -11,6 +11,7 @@ import { default as React, Component } from "react";
 import { GoogleMap, InfoWindow, Marker, OverlayView, withGoogleMap } from 'react-google-maps';
 import MarkerClusterer from 'react-google-maps/lib/addons/MarkerClusterer';
 import { AttractionType } from './Attraction';
+import { default as AttractionMarker } from './AttractionMarker';
 
 let ehPropertyIcon = {
   url: 'http://www.english-heritage.org.uk/static/staticNM/icons/pin-single-property.png',
@@ -61,8 +62,9 @@ const GMap = withGoogleMap(props => (
       //minimumClusterSize={4}
     >
       {props.markers.map((marker, index) => (
-        <Marker
+        <AttractionMarker
           key={marker.id}
+          attractionId={marker.id}
           position={new google.maps.LatLng(marker.lat, marker.lng)}
           // Set image to EH property icon.
           icon={marker.type === AttractionType.EH_PROPERTY ? ehPropertyIcon : assocAttractIcon}
@@ -91,7 +93,7 @@ const GMap = withGoogleMap(props => (
               <p>{marker.title}</p>
             </OverlayView>
           }
-        </Marker>
+        </AttractionMarker>
       ))}
     </MarkerClusterer>
   </GoogleMap>
