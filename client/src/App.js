@@ -92,28 +92,27 @@ class App extends Component {
   handlePopularFilterChange(showPopular) {
     this.setState({
       ...this.state,
-      popularFilter: showPopular,
+      popularFilter: showPopular
     });
   }
 
 
-  // Filter all the attractions through selected criteria, and return a
-  // pruned array of attractions.
+  // Filter all the attractions through selected criteria.
   filterAttractions() {
-    let allAttractions = this.state.attractions;
-
-    let filteredAttractions = allAttractions.filter(attract => {
-      // Popularity filter is off, show all attractions.
-      if (! this.state.popularFilter) {
-        return true;
+    let newAttractions = this.state.attractions.map(attract => {
+      // Whether this attraction is visible.
+      let visible = true;
+      // Popularity filter is on, show all attractions.
+      if (this.state.popularFilter && ! attract.popular) {
+        visible = false;
       }
-      // Popularity filter is on, only show popular attractions.
-      else if (attract.popular) {
-        return true;
-      }
-      return false;
+      let newAttract = {
+        ...attract,
+        visible: visible,
+      };
+      return newAttract;
     });
-    return filteredAttractions;
+    return newAttractions;
   }
 
 
@@ -131,13 +130,10 @@ class App extends Component {
         </p>
         <div className="App-content">
           <div className="App-sidebar">
-            <PopularFilter onChange={this.handlePopularFilterChange} />
+            <PopularFilter value={this.state.popularFilter} onChange={this.handlePopularFilterChange} />
           </div>
           <div className="App-mapcontainer">
-            {/* Pass a filtered list of attractions to the map. */}
-            <AttractionMap
-              attractions={this.filterAttractions()}
-            />
+            <AttractionMap attractions={this.filterAttractions()} />
           </div>
         </div>
       </div>

@@ -10,7 +10,7 @@ import { default as React, Component } from "react";
 
 import { GoogleMap, InfoWindow, Marker, OverlayView, withGoogleMap } from 'react-google-maps';
 import MarkerClusterer from 'react-google-maps/lib/addons/MarkerClusterer';
-import { default as AttractionMarker } from './AttractionMarker';
+// import { default as AttractionMarker } from './AttractionMarker';
 
 let ehPropertyIcon = {
   url: 'http://www.english-heritage.org.uk/static/staticNM/icons/pin-single-property.png',
@@ -65,6 +65,7 @@ const GMap = withGoogleMap(props => (
         <Marker
           key={marker.id}
           attractionId={marker.id}
+          visible={marker.visible}
           position={new google.maps.LatLng(marker.lat, marker.lng)}
           // Set image to EH property icon.
           icon={marker.ownership === 'eh_property' ? ehPropertyIcon : assocAttractIcon}
@@ -79,12 +80,12 @@ const GMap = withGoogleMap(props => (
           }}
           onClick={() => props.onMarkerClick(marker) }
         >
-          {marker.showInfo &&
+          {marker.visible && marker.showInfo &&
             <InfoWindow onCloseClick={() => props.onMarkerClose(marker)}>
               {marker.infoWindowContent}
             </InfoWindow>
           }
-          {props.showOverlays &&
+          {marker.visible && props.showOverlays &&
             <OverlayView
               position={{ lat: marker.lat, lng: marker.lng }}
               mapPaneName={OverlayView.OVERLAY_LAYER}
@@ -141,6 +142,7 @@ export default class AttractionMap extends Component {
         lat: attract.lat,
         lng: attract.lng,
         ownership: attract.ownership,
+        visible: attract.visible,
         // Whether to show info window.
         showInfo: false,
         infoWindowContent: (
