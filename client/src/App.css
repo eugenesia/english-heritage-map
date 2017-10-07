@@ -65,10 +65,11 @@ html, body, #root {
 
 .App-sidebar {
   flex: initial;
-  width: 160px;
+  width: 120px;
   padding: 20px;
-  text-align: left;
   background-color: lightblue;
+  text-align: left;
+  font-size: small;
 }
 
 .infowindow {
