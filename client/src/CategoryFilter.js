@@ -3,11 +3,25 @@ import { default as React, Component } from 'react';
 
 export default class CategoryFilter extends Component {
 
+  // All the category labels found on the API data.
+  // TODO: Dynamically generate these based on data.
   static categoryLabels = {
-    castles: 'Castles',
-    medieval: 'Medieval and tudor',
-    monument: 'Monuments and ruins',
     abbey: 'Abbeys and churches',
+    audio: 'Audio tours',
+    castle: 'Castles',
+    coastal: 'Coastal',
+    // eh: 'EH Property',
+    free: 'Free to Enter',
+    garden: 'Gardens',
+    hadrian: 'Hadrian\'s Wall',
+    house: 'Houses and palaces',
+    medieval: 'Medieval and tudor',
+    memorial: 'Memorials',
+    monument: 'Monuments and ruins',
+    // popular: 'Most Popular',
+    ovp: 'OVP',
+    prehistoric: 'Prehistoric',
+    roman: 'Roman',
   }
 
   constructor() {
