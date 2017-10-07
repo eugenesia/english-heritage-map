@@ -86,12 +86,15 @@ class App extends Component {
           and Associated Attractions
           <img src={assocAttractIcon} alt="Associated Attraction icon" />.
         </p>
-				<div className="App-mapcontainer">
-          <AttractionMap
-            attractions={this.state.attractions}
-          />
-				</div>
-        <div className="App-sidebar">
+        <div className="App-content">
+          <div className="App-sidebar">
+            <p>Test</p>
+          </div>
+          <div className="App-mapcontainer">
+            <AttractionMap
+              attractions={this.state.attractions}
+            />
+          </div>
         </div>
       </div>
     );
