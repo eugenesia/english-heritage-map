@@ -92,6 +92,14 @@ html, body, #root {
   font-size: small;
 }
 
+@media (max-width: 600px) {
+  .App-sidebar {
+    padding: 4px;
+    width: 80px;
+    font-size: x-small;
+  }
+}
+
 .infowindow {
   width: 240px;
   text-align: left;
