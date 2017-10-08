@@ -105,6 +105,11 @@ html, body, #root {
   text-align: left;
 }
 
+.infowindow__title {
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
 .infowindow__title a {
   text-decoration: none;
   color: gray;
