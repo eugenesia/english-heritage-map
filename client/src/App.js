@@ -186,9 +186,9 @@ class App extends Component {
       <div className="App">
         <div className="App-header">
           {/*<img src={logo} className="App-logo" alt="logo" />*/}
-          <h2 className="App-title">Heritage map</h2>
+          <h2 className="App-title">English Heritage map</h2>
           <a className="App-subtitle" href="http://voltaireconsulting.com" target="_blank">By Voltaire Consulting</a>
-          <p className="App-intro"> Map of English Heritage properties 
+          <p className="App-intro"> English Heritage properties 
             <img src={ehPropertyIcon} alt="English Heritage property icon" />
             and Associated Attractions
             <img src={assocAttractIcon} alt="Associated Attraction icon" />.
