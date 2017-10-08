@@ -24,8 +24,14 @@ html, body, #root {
 }
 
 .App-title {
-  flex: 1;
+  flex: 1.5;
   text-align: left;
+}
+
+@media (max-height: 600px) {
+  .App-title {
+    font-size: 12px;
+  }
 }
 
 .App-subtitle {
@@ -37,15 +43,27 @@ html, body, #root {
   color: lightblue;
 }
 
+
 .App-subtitle:hover {
   color: white;
 }
 
+@media (max-width: 600px) {
+  .App-subtitle {
+    display: none;
+  }
+}
 
 .App-intro {
-  flex: 5;
+  flex: 3;
   text-align: right;
   font-size: small;
+}
+
+@media (max-width: 1000px) {
+  .App-intro {
+    display: none;
+  }
 }
 
 @keyframes App-logo-spin {
@@ -65,8 +83,9 @@ html, body, #root {
 
 .App-sidebar {
   flex: initial;
-  width: 120px;
-  padding: 20px;
+  width: 100px;
+  padding: 16px;
+  overflow-y: scroll;
   background-color: lightblue;
   text-align: left;
   font-size: small;
@@ -118,3 +137,4 @@ html, body, #root {
 .infowindow__description a:hover {
   text-decoration: underline;
 }
+
