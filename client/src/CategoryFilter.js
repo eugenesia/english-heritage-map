@@ -41,7 +41,7 @@ export default class CategoryFilter extends Component {
   render() {
     return (
       <div>
-        <h2>Categories</h2>
+        <h3>Categories</h3>
         {Object.keys(CategoryFilter.categoryLabels).map(catId => {
           let catLabel = CategoryFilter.categoryLabels[catId];
 

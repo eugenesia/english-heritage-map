@@ -95,7 +95,7 @@ html, body, #root {
 @media (max-width: 800px) {
   .App-sidebar {
     padding: 4px;
-    width: 80px;
+    width: 70px;
     font-size: x-small;
   }
 }
@@ -103,6 +103,13 @@ html, body, #root {
 .infowindow {
   width: 240px;
   text-align: left;
+}
+
+@media (max-width: 800px) {
+  .infowindow {
+    width: 180px;
+    font-size: x-small;
+  }
 }
 
 .infowindow__title {
