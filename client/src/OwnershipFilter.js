@@ -26,7 +26,7 @@ export default class OwnershipFilter extends Component {
 
         <label key='ehProperty'>
           <input type='checkbox' name='ehProperty'
-            value={this.props.values.ehProperty}
+            checked={this.props.values.ehProperty}
             onChange={this.handleChange} />
           <span>English Heritage property</span>
           <br/>
@@ -34,7 +34,7 @@ export default class OwnershipFilter extends Component {
 
         <label key='assocAttraction'>
           <input type='checkbox' name='assocAttraction'
-            value={this.props.values.assocAttraction}
+            checked={this.props.values.assocAttraction}
             onChange={this.handleChange} />
           <span>Associated attraction</span>
           <br/>
