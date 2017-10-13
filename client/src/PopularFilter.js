@@ -19,7 +19,7 @@ export default class PopularFilter extends Component {
       <div>
         <h3>Popular</h3>
         <input type='checkbox' id='filters__popular' name='popular'
-          value={true} checked={this.props.value} onChange={this.handleChange} />
+          checked={this.props.value} onChange={this.handleChange} />
         <label htmlFor='filters__popular'>Most popular</label>
       </div>
     );

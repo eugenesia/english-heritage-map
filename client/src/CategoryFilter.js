@@ -48,7 +48,7 @@ export default class CategoryFilter extends Component {
             <label key={catId}>
               <input type='checkbox'
                 name={catId}
-                value={this.props.categories[catId]} 
+                checked={this.props.categories[catId]} 
                 onChange={this.handleChange}
               />
               {catLabel}
