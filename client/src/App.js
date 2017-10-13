@@ -106,6 +106,12 @@ class App extends Component {
   handlePopularFilterChange(showPopular) {
     this.setState({
       ...this.state,
+      // User wants to see only popular attractions. So turn off ownership
+      // filter to remove unnecessary results.
+      ownershipFilter: {
+        ehProperty: false,
+        assocAttraction: false,
+      },
       popularFilter: showPopular
     });
   }
@@ -206,6 +212,12 @@ class App extends Component {
 
     this.setState({
       ...this.state,
+      // User wants to see only categories of attractions. So turn off ownership
+      // filter to remove unnecessary results.
+      ownershipFilter: {
+        ehProperty: false,
+        assocAttraction: false,
+      },
       categoryFilter: categoryState,
     });
   }
