@@ -115,8 +115,6 @@ class App extends Component {
    * Handle attractions based on "Ownership".
    */
   handleOwnershipFilterChange(name, value) {
-    console.log('ownershipfilterchange name', name);
-    console.log('ownershipfilterchange value', value);
     let ownershipFilterState = {...this.state.ownershipFilter};
     ownershipFilterState[name] = value;
 
