@@ -18,8 +18,7 @@ export default class CategoryFilter extends Component {
     medieval: 'Medieval and tudor',
     memorial: 'Memorials',
     monument: 'Monuments and ruins',
-    // popular: 'Most Popular',
-    ovp: 'OVP',
+    ovp: 'OVP (Overseas Visitors Pass)',
     prehistoric: 'Prehistoric',
     roman: 'Roman',
   }
