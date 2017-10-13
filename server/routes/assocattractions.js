@@ -113,7 +113,7 @@ router.get('/', function(req, res, next) {
               telephone: info.telephone,
               // Whether it belongs to English Heritage, or is an Associated
               // Attraction.
-              ownership: 'assoc_attraction',
+              ownership: 'assocAttraction',
             };
 
             // Make all links open externally.

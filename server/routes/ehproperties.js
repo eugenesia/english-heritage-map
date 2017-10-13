@@ -46,7 +46,7 @@ router.get('/', function(req, res, next) {
             telephone: null,
             // Whether it belongs to English Heritage, or is an Associated
             // Attraction.
-            ownership: 'eh_property',
+            ownership: 'ehProperty',
           };
 
           attractions[property.id] = attract;

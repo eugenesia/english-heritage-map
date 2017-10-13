@@ -68,7 +68,7 @@ const GMap = withGoogleMap(props => (
           visible={marker.visible}
           position={new google.maps.LatLng(marker.lat, marker.lng)}
           // Set image to EH property icon.
-          icon={marker.ownership === 'eh_property' ? ehPropertyIcon : assocAttractIcon}
+          icon={marker.ownership === 'ehProperty' ? ehPropertyIcon : assocAttractIcon}
           label={{
             // First letter of name.
             text: marker.title.substring(0,1),
@@ -76,7 +76,7 @@ const GMap = withGoogleMap(props => (
             fontSize: '32px',
             fontFamily: 'Times New Roman',
             // Choose label color to stand out against image background.
-            color: marker.ownership === 'eh_property' ? '#000000' : '#00bb00',
+            color: marker.ownership === 'ehProperty' ? '#000000' : '#00bb00',
           }}
           onClick={() => props.onMarkerClick(marker) }
         >

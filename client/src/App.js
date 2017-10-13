@@ -4,6 +4,7 @@ import './App.css';
 import AttractionMap from './AttractionMap';
 import PopularFilter from './PopularFilter';
 import CategoryFilter from './CategoryFilter';
+import OwnershipFilter from './OwnershipFilter';
 
 const ehBaseUrl = 'http://www.english-heritage.org.uk';
 const ehPropertyIcon = ehBaseUrl + '/static/staticNM/icons/pin-single-property.png';
@@ -26,14 +27,15 @@ class App extends Component {
       attractions: [],
       // Show English Heritage properties only, or Associated Attractions only.
       ownershipFilter: {
-        eh_property: true,
-        assoc_attraction: true,
+        ehProperty: true,
+        assocAttraction: true,
       },
       // Whether to show only popular attractions.
       popularFilter: false,
       categoryFilter: catFilterInitState,
     };
 
+    this.handleOwnershipFilterChange = this.handleOwnershipFilterChange.bind(this);
     this.handlePopularFilterChange = this.handlePopularFilterChange.bind(this);
     this.handleCategoryFilterChange = this.handleCategoryFilterChange.bind(this);
     this.filterAttractions = this.filterAttractions.bind(this);
@@ -109,17 +111,33 @@ class App extends Component {
   }
 
 
+  /**
+   * Handle attractions based on "Ownership".
+   */
+  handleOwnershipFilterChange(name, value) {
+    console.log('ownershipfilterchange name', name);
+    console.log('ownershipfilterchange value', value);
+    let ownershipFilterState = {...this.state.ownershipFilter};
+    ownershipFilterState[name] = value;
+
+    this.setState({
+      ...this.state,
+      ownershipFilter: ownershipFilterState,
+    });
+  }
+
+
   // Filter all the attractions through selected criteria.
   filterAttractions() {
 
     // If nothing is checked, show nothing.
-    let allCategoriesFalse = Object.keys(this.state.categoryFilter)
+    const allCategoriesFalse = Object.keys(this.state.categoryFilter)
       .every(catId => {
         return ! this.state.categoryFilter[catId];
       });
 
     // Category IDs selected.
-    let selectedCatIds = Object.keys(this.state.categoryFilter)
+    const selectedCatIds = Object.keys(this.state.categoryFilter)
       .filter(catId => {
         if (this.state.categoryFilter[catId]) {
           return true;
@@ -128,16 +146,30 @@ class App extends Component {
       });
 
     // Labels of categories selected.
-    let selectedCatLabels = selectedCatIds.map(catId => {
+    const selectedCatLabels = selectedCatIds.map(catId => {
       return CategoryFilter.categoryLabels[catId];
     });
+
 
     let newAttractions = this.state.attractions.map(attract => {
       // Whether this attraction is visible.
       let visible = false;
 
       // Nothing was checked, show everything.
-      if (! this.state.popularFilter && allCategoriesFalse) {
+      if (! this.state.ownershipFilter.ehProperty
+        && ! this.state.ownershipFilter.assocAttraction
+        && ! this.state.popularFilter
+        && allCategoriesFalse) {
+        visible = true;
+      }
+
+      if (this.state.ownershipFilter.ehProperty
+        && attract.ownership === 'ehProperty') {
+        visible = true;
+      }
+
+      if (this.state.ownershipFilter.assocAttraction
+        && attract.ownership === 'assocAttraction') {
         visible = true;
       }
 
@@ -196,8 +228,12 @@ class App extends Component {
         </div>
         <div className="App-content">
           <div className="App-sidebar">
-            <PopularFilter value={this.state.popularFilter} onChange={this.handlePopularFilterChange} />
-            <CategoryFilter categories={this.state.categoryFilter} onChange={this.handleCategoryFilterChange} />
+            <OwnershipFilter values={this.state.ownershipFilter}
+              onChange={this.handleOwnershipFilterChange} />
+            <PopularFilter value={this.state.popularFilter}
+              onChange={this.handlePopularFilterChange} />
+            <CategoryFilter categories={this.state.categoryFilter}
+              onChange={this.handleCategoryFilterChange} />
           </div>
           <div className="App-mapcontainer">
             <AttractionMap attractions={this.filterAttractions()} />
